@@ -99,15 +99,13 @@ rc4.prototype.change = function(key) {
     return;
 };
 /**
- * string code
+ * generate ksa
  * 
- * @function codeString
- * @param {String} str - data
- * @return {String}
+ * @function ksa
+ * @return {Array}
  */
-rc4.prototype.codeString = function(str) {
+rc4.prototype.ksa = function(key) {
 
-    var res = '';
     var j = 0;
     var s = sbox();
     var key = this.key;
@@ -116,7 +114,20 @@ rc4.prototype.codeString = function(str) {
         j = (j + s[i] + key[i % len]) % 256;
         s[j] = [s[i],s[i] = s[j]][0];
     }
-    i = j = 0;
+    return s;
+};
+/**
+ * RC4 string code
+ * 
+ * @function codeString
+ * @param {String} str - data
+ * @return {String}
+ */
+rc4.prototype.codeString = function(str) {
+
+    var res = '';
+    var i = 0, j = 0;
+    var s = this.ksa();
     for (var y = 0, l = str.length; y < l; y++) {
         i = (i + 1) % 256;
         j = (j + s[i]) % 256;
@@ -126,7 +137,7 @@ rc4.prototype.codeString = function(str) {
     return res;
 };
 /**
- * byte code
+ * RC4 byte code
  * 
  * @function codeByte
  * @param {Array} byt - data
@@ -135,25 +146,18 @@ rc4.prototype.codeString = function(str) {
 rc4.prototype.codeByte = function(byt) {
 
     var res = [];
-    var j = 0;
-    var s = sbox();
-    var key = this.key;
-    var len = this.len;
-    for (var i = 0; i < 256; i++) {
-        j = (j + s[i] + key[i % len]) % 256;
-        s[j] = [s[i],s[i] = s[j]][0];
-    }
-    i = j = 0;
+    var i = 0, j = 0;
+    var s = this.ksa();
     for (var y = 0, l = byt.length; y < l; y++) {
         i = (i + 1) % 256;
         j = (j + s[i]) % 256;
         s[j] = [s[i],s[i] = s[j]][0];
-        res[y] = (byt[y] ^ s[(s[i] + s[j]) % 256]);
+        res[y] = byt[y] ^ s[(s[i] + s[j]) % 256];
     }
     return res;
 };
 /**
- * mixed code. Alias for codeString or codeByte
+ * RC4 mixed code. Alias for codeString or codeByte
  * 
  * @function code
  * @param {String|Array} boh - data
@@ -165,6 +169,207 @@ rc4.prototype.code = function(boh) {
         return this.codeString(boh);
     } else if (Array.isArray(boh)) {
         return this.codeByte(boh);
+    } else {
+        throw new Error('Invalid data');
+    }
+    return;
+};
+/**
+ * RC4A string code
+ * 
+ * @function codeStringRC4A
+ * @param {String} str - data
+ * @return {String}
+ */
+rc4.prototype.codeStringRC4A = function(str) {
+
+    var res = '';
+    var i = 0, j1 = 0, j2 = 0;
+    var s1 = this.ksa();
+    var s2 = s1.slice();
+    for (var y = 0, l = str.length; y < l; y++) {
+        i = (i + 1) % 256;
+        j1 = (j1 + s1[i]) % 256;
+        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+        res += String.fromCharCode(str.charCodeAt(y)
+                ^ s2[(s1[i] + s1[j1]) % 256]);
+        y++;
+        j2 = (j2 + s2[i]) % 256;
+        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
+        res += String.fromCharCode(str.charCodeAt(y)
+                ^ s1[(s2[i] + s2[j2]) % 256]);
+    }
+    return res;
+};
+/**
+ * RC4A byte code
+ * 
+ * @function codeByteRC4A
+ * @param {Array} byt - data
+ * @return {Array}
+ */
+rc4.prototype.codeByteRC4A = function(byt) {
+
+    var res = [];
+    var i = 0, j1 = 0, j2 = 0;
+    var s1 = this.ksa();
+    var s2 = s1.slice();
+    for (var y = 0, l = byt.length; y < l; y++) {
+        i = (i + 1) % 256;
+        j1 = (j1 + s1[i]) % 256;
+        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+        res[y] = byt[y] ^ s2[(s1[i] + s1[j1]) % 256];
+        y++;
+        j2 = (j2 + s2[i]) % 256;
+        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
+        res[y] = byt[y] ^ s1[(s2[i] + s2[j1]) % 256];
+    }
+    return res;
+};
+/**
+ * RC4A mixed code. Alias for codeString or codeByte
+ * 
+ * @function codeRC4A
+ * @param {String|Array} boh - data
+ * @return {String|Array}
+ */
+rc4.prototype.codeRC4A = function(boh) {
+
+    if (typeof (boh) == 'string') {
+        return this.codeStringVMPC(boh);
+    } else if (Array.isArray(boh)) {
+        return this.codeByteVMPC(boh);
+    } else {
+        throw new Error('Invalid data');
+    }
+    return;
+};
+/**
+ * VMPC string code
+ * 
+ * @function codeStringVMPC
+ * @param {String} str - data
+ * @return {String}
+ */
+rc4.prototype.codeStringVMPC = function(str) {
+
+    var res = '';
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null;
+    for (var y = 0, l = str.length; y < l; y++) {
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        res += String.fromCharCode(str.charCodeAt(y) ^ s[s[b] + 1]);
+        s[j] = [a,s[i] = b][0];
+        i = (i + 1) % 256;
+    }
+    return res;
+};
+/**
+ * VMPC byte code
+ * 
+ * @function codeByteVMPC
+ * @param {Array} byt - data
+ * @return {Array}
+ */
+rc4.prototype.codeByteVMPC = function(byt) {
+
+    var res = [];
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null;
+    for (var y = 0, l = byt.length; y < l; y++) {
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        res[y] = byt[y] ^ s[s[b] + 1];
+        s[j] = [a,s[i] = b][0];
+        i = (i + 1) % 256;
+    }
+    return res;
+};
+/**
+ * VMPC mixed code. Alias for codeString or codeByte
+ * 
+ * @function codeVMPC
+ * @param {String|Array} boh - data
+ * @return {String|Array}
+ */
+rc4.prototype.codeVMPC = function(boh) {
+
+    if (typeof (boh) == 'string') {
+        return this.codeStringVMPC(boh);
+    } else if (Array.isArray(boh)) {
+        return this.codeByteVMPC(boh);
+    } else {
+        throw new Error('Invalid data');
+    }
+    return;
+};
+/**
+ * RC4p string code
+ * 
+ * @function codeStringRC4p
+ * @param {String} str - data
+ * @return {String}
+ */
+rc4.prototype.codeStringRC4p = function(str) {
+
+    var res = '';
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null, c = null;
+    for (var y = 0, l = str.length; y < l; y++) {
+        i = (i + 1) % 256;
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        s[j] = [a,s[i] = b][0];
+        c = (s[i << 5 ^ j >> 3] + s[j << 5 ^ i >> 3]) % 256;
+        res += String.fromCharCode(str.charCodeAt(y) ^ (s[a + b] + s[c ^ 0xAA])
+                ^ s[j + b]);
+    }
+    return res;
+};
+/**
+ * RC4p byte code
+ * 
+ * @function codeByteRC4p
+ * @param {Array} byt - data
+ * @return {Array}
+ */
+rc4.prototype.codeByteRC4p = function(byt) {
+
+    var res = [];
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null, c = null;
+    for (var y = 0, l = byt.length; y < l; y++) {
+        i = (i + 1) % 256;
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        s[j] = [a,s[i] = b][0];
+        c = (s[i << 5 ^ j >> 3] + s[j << 5 ^ i >> 3]) % 256;
+        res[y] = byt[y] ^ (s[a + b] + s[c ^ 0xAA]) ^ s[j + b];
+    }
+    return res;
+};
+/**
+ * RC4p mixed code. Alias for codeString or codeByte
+ * 
+ * @function codeRC4p
+ * @param {String|Array} boh - data
+ * @return {String|Array}
+ */
+rc4.prototype.codeRC4p = function(boh) {
+
+    if (typeof (boh) == 'string') {
+        return this.codeStringVMPC(boh);
+    } else if (Array.isArray(boh)) {
+        return this.codeByteVMPC(boh);
     } else {
         throw new Error('Invalid data');
     }
