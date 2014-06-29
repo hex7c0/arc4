@@ -57,6 +57,8 @@ function bytearray(str) {
  * export class
  * 
  * @exports rc4
+ * @function rc4
+ * @return {RC4}
  */
 module.exports = function rc4(key) {
 
