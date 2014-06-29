@@ -58,22 +58,22 @@ function bytearray(str) {
  * 
  * @exports rc4
  */
-module.exports = function(key) {
+module.exports = function rc4(key) {
 
-    return new rc4(key);
+    return new RC4(key);
 };
 
 /*
  * class
  */
 /**
- * rc4 class
+ * RC4 class
  * 
- * @class rc4
- * @param {String!Array} key - user key
+ * @class RC4
+ * @param {String|Array} key - user key
  * @return {Object}
  */
-function rc4(key) {
+function RC4(key) {
 
     this.key = '';
     this.change(key);
@@ -87,7 +87,7 @@ function rc4(key) {
  * @param {String!Array} key - user key
  * @return
  */
-rc4.prototype.change = function(key) {
+RC4.prototype.change = function(key) {
 
     if (typeof (key) == 'string') {
         this.key = bytearray(key);
@@ -104,7 +104,7 @@ rc4.prototype.change = function(key) {
  * @function ksa
  * @return {Array}
  */
-rc4.prototype.ksa = function(key) {
+RC4.prototype.ksa = function(key) {
 
     var j = 0;
     var s = sbox();
@@ -123,7 +123,7 @@ rc4.prototype.ksa = function(key) {
  * @param {String} str - data
  * @return {String}
  */
-rc4.prototype.codeString = function(str) {
+RC4.prototype.codeString = function(str) {
 
     var res = '';
     var i = 0, j = 0;
@@ -143,7 +143,7 @@ rc4.prototype.codeString = function(str) {
  * @param {Array} byt - data
  * @return {Array}
  */
-rc4.prototype.codeByte = function(byt) {
+RC4.prototype.codeByte = function(byt) {
 
     var res = [];
     var i = 0, j = 0;
@@ -163,7 +163,7 @@ rc4.prototype.codeByte = function(byt) {
  * @param {String|Array} boh - data
  * @return {String|Array}
  */
-rc4.prototype.code = function(boh) {
+RC4.prototype.code = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeString(boh);
@@ -181,7 +181,7 @@ rc4.prototype.code = function(boh) {
  * @param {String} str - data
  * @return {String}
  */
-rc4.prototype.codeStringRC4A = function(str) {
+RC4.prototype.codeStringRC4A = function(str) {
 
     var res = '';
     var i = 0, j1 = 0, j2 = 0;
@@ -208,7 +208,7 @@ rc4.prototype.codeStringRC4A = function(str) {
  * @param {Array} byt - data
  * @return {Array}
  */
-rc4.prototype.codeByteRC4A = function(byt) {
+RC4.prototype.codeByteRC4A = function(byt) {
 
     var res = [];
     var i = 0, j1 = 0, j2 = 0;
@@ -233,7 +233,7 @@ rc4.prototype.codeByteRC4A = function(byt) {
  * @param {String|Array} boh - data
  * @return {String|Array}
  */
-rc4.prototype.codeRC4A = function(boh) {
+RC4.prototype.codeRC4A = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeStringVMPC(boh);
@@ -251,7 +251,7 @@ rc4.prototype.codeRC4A = function(boh) {
  * @param {String} str - data
  * @return {String}
  */
-rc4.prototype.codeStringVMPC = function(str) {
+RC4.prototype.codeStringVMPC = function(str) {
 
     var res = '';
     var i = 0, j = 0;
@@ -274,7 +274,7 @@ rc4.prototype.codeStringVMPC = function(str) {
  * @param {Array} byt - data
  * @return {Array}
  */
-rc4.prototype.codeByteVMPC = function(byt) {
+RC4.prototype.codeByteVMPC = function(byt) {
 
     var res = [];
     var i = 0, j = 0;
@@ -297,7 +297,7 @@ rc4.prototype.codeByteVMPC = function(byt) {
  * @param {String|Array} boh - data
  * @return {String|Array}
  */
-rc4.prototype.codeVMPC = function(boh) {
+RC4.prototype.codeVMPC = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeStringVMPC(boh);
@@ -315,7 +315,7 @@ rc4.prototype.codeVMPC = function(boh) {
  * @param {String} str - data
  * @return {String}
  */
-rc4.prototype.codeStringRC4p = function(str) {
+RC4.prototype.codeStringRC4p = function(str) {
 
     var res = '';
     var i = 0, j = 0;
@@ -340,7 +340,7 @@ rc4.prototype.codeStringRC4p = function(str) {
  * @param {Array} byt - data
  * @return {Array}
  */
-rc4.prototype.codeByteRC4p = function(byt) {
+RC4.prototype.codeByteRC4p = function(byt) {
 
     var res = [];
     var i = 0, j = 0;
@@ -364,7 +364,7 @@ rc4.prototype.codeByteRC4p = function(byt) {
  * @param {String|Array} boh - data
  * @return {String|Array}
  */
-rc4.prototype.codeRC4p = function(boh) {
+RC4.prototype.codeRC4p = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeStringVMPC(boh);
