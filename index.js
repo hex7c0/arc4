@@ -4,7 +4,7 @@
  * @module arc4
  * @package arc4
  * @subpackage main
- * @version 1.0.0
+ * @version 1.1.1
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
