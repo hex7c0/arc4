@@ -22,10 +22,10 @@ try {
 }
 
 var a = 'hex7c0'; // key
-var b = 'ciao I\'m hex7c0\nHow are you?\n:D'; // data
+var b = new Buffer('ciao I\'m hex7c0\nHow are you?\n:D'); // data
 var cipher = rc4(a);
 
-var d = cipher.codeString(b); // encrypt
+var d = cipher.codeBuffer(b); // encrypt
 
 console.log('original: ' + b.toString());
 
@@ -43,7 +43,7 @@ fs.readFile('crypted',function(err,data) {
     if (err) {
         console.log(err);
     } else {
-        var e = cipher.codeString(String(data)); // decrypt
+        var e = cipher.codeBuffer(data); // decrypt
         console.log('decrypt: ' + e.toString());
     }
 });

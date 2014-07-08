@@ -1,6 +1,6 @@
 {
   "name": "arc4",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "rc4 stream cipher",
   "main": "index.js",
   "repository": {

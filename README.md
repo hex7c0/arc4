@@ -42,24 +42,29 @@ encode byte data
 rc4.codeByte([49,50,51]);
 ```
 
-encode string or byte
+encode byte data
 ```js
-rc4.code('string or byte');
+rc4.codeBuffer(new Buffer('ciao'));
+```
+
+encode string, byte or buffer
+```js
+rc4.code(your_data);
 ```
 
 same methods with `RC4A` postifx for [RC4A](https://en.wikipedia.org/wiki/RC4#RC4A)
 ```js
-rc4.codeRC4A('string or byte');
+rc4.codeRC4A(your_data);
 ```
 
 same methods with `VMPC` postifx for [VMPC](https://en.wikipedia.org/wiki/RC4#VMPC)
 ```js
-rc4.codeVMPC('string or byte');
+rc4.codeVMPC(your_data);
 ```
 
 same methods with `RC4p` postifx for [RC4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)
 ```js
-rc4.codeRC4p('string or byte');
+rc4.codeRC4p(your_data);
 ```
 
 ### rc4(param)
