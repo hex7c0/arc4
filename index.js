@@ -4,7 +4,7 @@
  * @module arc4
  * @package arc4
  * @subpackage main
- * @version 1.1.1
+ * @version 1.2.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -147,7 +147,7 @@ RC4.prototype.codeString = function(str) {
  */
 RC4.prototype.codeByte = function(byt) {
 
-    var res = [];
+    var res = new Array(byt.length);
     var i = 0, j = 0;
     var s = this.ksa();
     for (var y = 0, l = byt.length; y < l; y++) {
@@ -155,6 +155,26 @@ RC4.prototype.codeByte = function(byt) {
         j = (j + s[i]) % 256;
         s[j] = [s[i],s[i] = s[j]][0];
         res[y] = byt[y] ^ s[(s[i] + s[j]) % 256];
+    }
+    return res;
+};
+/**
+ * RC4 buffer code
+ * 
+ * @function codeBuffer
+ * @param {Buffer} buff - data
+ * @return {Buffer}
+ */
+RC4.prototype.codeBuffer = function(buff) {
+
+    var res = new Buffer(buff.length);
+    var i = 0, j = 0;
+    var s = this.ksa();
+    for (var y = 0, l = buff.length; y < l; y++) {
+        i = (i + 1) % 256;
+        j = (j + s[i]) % 256;
+        s[j] = [s[i],s[i] = s[j]][0];
+        res[y] = buff[y] ^ s[(s[i] + s[j]) % 256];
     }
     return res;
 };
@@ -171,6 +191,8 @@ RC4.prototype.code = function(boh) {
         return this.codeString(boh);
     } else if (Array.isArray(boh)) {
         return this.codeByte(boh);
+    } else if (Buffer.isBuffer(boh)) {
+        return this.codeBuffer(boh);
     } else {
         throw new Error('Invalid data');
     }
@@ -212,7 +234,7 @@ RC4.prototype.codeStringRC4A = function(str) {
  */
 RC4.prototype.codeByteRC4A = function(byt) {
 
-    var res = [];
+    var res = new Array(byt.length);
     var i = 0, j1 = 0, j2 = 0;
     var s1 = this.ksa();
     var s2 = s1.slice();
@@ -229,6 +251,31 @@ RC4.prototype.codeByteRC4A = function(byt) {
     return res;
 };
 /**
+ * RC4A buffer code
+ * 
+ * @function codeByfferRC4A
+ * @param {Buffer} buff - data
+ * @return {Buffer}
+ */
+RC4.prototype.codeByfferRC4A = function(buff) {
+
+    var res = new Byffer(buff.length);
+    var i = 0, j1 = 0, j2 = 0;
+    var s1 = this.ksa();
+    var s2 = s1.slice();
+    for (var y = 0, l = buff.length; y < l; y++) {
+        i = (i + 1) % 256;
+        j1 = (j1 + s1[i]) % 256;
+        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+        res[y] = buff[y] ^ s2[(s1[i] + s1[j1]) % 256];
+        y++;
+        j2 = (j2 + s2[i]) % 256;
+        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
+        res[y] = buff[y] ^ s1[(s2[i] + s2[j1]) % 256];
+    }
+    return res;
+};
+/**
  * RC4A mixed code. Alias for codeString or codeByte
  * 
  * @function codeRC4A
@@ -238,9 +285,11 @@ RC4.prototype.codeByteRC4A = function(byt) {
 RC4.prototype.codeRC4A = function(boh) {
 
     if (typeof (boh) == 'string') {
-        return this.codeStringVMPC(boh);
+        return this.codeStringRC4A(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeByteVMPC(boh);
+        return this.codeByteRC4A(boh);
+    } else if (Buffer.isBuffer(boh)) {
+        return this.codeBufferRC4A(boh);
     } else {
         throw new Error('Invalid data');
     }
@@ -278,7 +327,7 @@ RC4.prototype.codeStringVMPC = function(str) {
  */
 RC4.prototype.codeByteVMPC = function(byt) {
 
-    var res = [];
+    var res = new Array(byt.length);
     var i = 0, j = 0;
     var s = this.ksa();
     var a = null, b = null;
@@ -287,6 +336,29 @@ RC4.prototype.codeByteVMPC = function(byt) {
         j = s[(j + a) % 256];
         b = s[j];
         res[y] = byt[y] ^ s[s[b] + 1];
+        s[j] = [a,s[i] = b][0];
+        i = (i + 1) % 256;
+    }
+    return res;
+};
+/**
+ * VMPC buffer code
+ * 
+ * @function codeBufferVMPC
+ * @param {Buffer} buff - data
+ * @return {Buffer}
+ */
+RC4.prototype.codeBufferVMPC = function(buff) {
+
+    var res = new Buffer(buff.length);
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null;
+    for (var y = 0, l = buff.length; y < l; y++) {
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        res[y] = buff[y] ^ s[s[b] + 1];
         s[j] = [a,s[i] = b][0];
         i = (i + 1) % 256;
     }
@@ -305,6 +377,8 @@ RC4.prototype.codeVMPC = function(boh) {
         return this.codeStringVMPC(boh);
     } else if (Array.isArray(boh)) {
         return this.codeByteVMPC(boh);
+    } else if (Buffer.isBuffer(boh)) {
+        return this.codeBufferVMPC(boh);
     } else {
         throw new Error('Invalid data');
     }
@@ -344,7 +418,7 @@ RC4.prototype.codeStringRC4p = function(str) {
  */
 RC4.prototype.codeByteRC4p = function(byt) {
 
-    var res = [];
+    var res = new Array(byt.length);
     var i = 0, j = 0;
     var s = this.ksa();
     var a = null, b = null, c = null;
@@ -360,6 +434,30 @@ RC4.prototype.codeByteRC4p = function(byt) {
     return res;
 };
 /**
+ * RC4p buffer code
+ * 
+ * @function codeBufferRC4p
+ * @param {Buffer} buff - data
+ * @return {Buffer}
+ */
+RC4.prototype.codeBufferRC4p = function(buff) {
+
+    var res = new Buffer(buff.length);
+    var i = 0, j = 0;
+    var s = this.ksa();
+    var a = null, b = null, c = null;
+    for (var y = 0, l = buff.length; y < l; y++) {
+        i = (i + 1) % 256;
+        a = s[i];
+        j = s[(j + a) % 256];
+        b = s[j];
+        s[j] = [a,s[i] = b][0];
+        c = (s[i << 5 ^ j >> 3] + s[j << 5 ^ i >> 3]) % 256;
+        res[y] = buff[y] ^ (s[a + b] + s[c ^ 0xAA]) ^ s[j + b];
+    }
+    return res;
+};
+/**
  * RC4p mixed code. Alias for codeString or codeByte
  * 
  * @function codeRC4p
@@ -369,9 +467,11 @@ RC4.prototype.codeByteRC4p = function(byt) {
 RC4.prototype.codeRC4p = function(boh) {
 
     if (typeof (boh) == 'string') {
-        return this.codeStringVMPC(boh);
+        return this.codeStringRC4p(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeByteVMPC(boh);
+        return this.codeByteRC4p(boh);
+    } else if (Buffer.isBuffer(boh)) {
+        return this.codeBufferRC4p(boh);
     } else {
         throw new Error('Invalid data');
     }
