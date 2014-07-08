@@ -29,7 +29,10 @@ var d = cipher.codeBuffer(b); // encrypt
 
 console.log('original: ' + b.toString());
 
-fs.writeFile('crypted',d,function(err) {
+// use {encoding: null} when you write buffer
+fs.writeFile('crypted',d,{
+    encoding: null
+},function(err) {
 
     if (err) {
         console.log(err);
@@ -38,11 +41,15 @@ fs.writeFile('crypted',d,function(err) {
     }
 });
 
-fs.readFile('crypted',function(err,data) {
+// use {encoding: null} when you read buffer
+fs.readFile('crypted',{
+    encoding: null
+},function(err,data) {
 
     if (err) {
         console.log(err);
     } else {
+        console.log(data)
         var e = cipher.codeBuffer(data); // decrypt
         console.log('decrypt: ' + e.toString());
     }
