@@ -49,7 +49,6 @@ fs.readFile('crypted',{
     if (err) {
         console.log(err);
     } else {
-        console.log(data)
         var e = cipher.codeBuffer(data); // decrypt
         console.log('decrypt: ' + e.toString());
     }
