@@ -37,12 +37,12 @@ encode string data
 rc4.codeString('string');
 ```
 
-encode byte data
+encode array data
 ```js
 rc4.codeByte([49,50,51]);
 ```
 
-encode byte data
+encode buffer data
 ```js
 rc4.codeBuffer(new Buffer('ciao'));
 ```
@@ -69,7 +69,7 @@ rc4.codeRC4p(your_data);
 
 ### rc4(param)
 
- - `param` - **String | Array** Your key *(default "throw Error")*
+ - `param` - **String | Array | Buffer** Your key *(default "throw Error")*
 
 #### Examples
 

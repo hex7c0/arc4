@@ -1,3 +1,9 @@
+v2.0.0 / 2014-07-10
+==================
+
+  * Rename "codeByte" to "coreArray"
+  * New structure of code
+
 v1.2.0 / 2014-07-08
 ==================
 
