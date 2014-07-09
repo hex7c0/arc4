@@ -38,17 +38,134 @@ function sbox() {
             254,255];
 }
 /**
+ * generate ksa
+ * 
+ * @function ksa
+ * @param {Array} key - user key
+ * @return {Array}
+ */
+function ksa(key) {
+
+    var j = 0;
+    var s = sbox();
+    var key = key;
+    var len = key.len;
+    for (var i = 0; i < 256; i++) {
+        j = (j + s[i] + key[i % len]) % 256;
+        s[j] = [s[i],s[i] = s[j]][0];
+    }
+    return s;
+};
+/**
  * body cipher
  * 
  * @function body
+ * @param {String|Array|Buffer} inp - input
  * @param {String|Array|Buffer} res - response
- * @param {Array} s - ksa box
+ * @param {Array} ksa - ksa box
  * @return {String|Array|Buffer}
  */
-function body(res,s) {
+function body(inp,res,ksa) {
 
-    return res
+    var i = 0, j = 0;
+    var s = ksa;
+    var res = res;
+    if (typeof (res) == 'string') {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            i = (i + 1) % 256;
+            j = (j + s[i]) % 256;
+            s[j] = [s[i],s[i] = s[j]][0];
+            res += String.fromCharCode(inp.charCodeAt(y)
+                    ^ s[(s[i] + s[j]) % 256]);
+        }
+    } else {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            i = (i + 1) % 256;
+            j = (j + s[i]) % 256;
+            s[j] = [s[i],s[i] = s[j]][0];
+            res[y] = inp[y] ^ s[(s[i] + s[j]) % 256];
+        }
+    }
+    return res;
 }
+/**
+ * body cipher RC4A
+ * 
+ * @function bodyRC4A
+ * @param {String|Array|Buffer} inp - input
+ * @param {String|Array|Buffer} res - response
+ * @param {Array} ksa - ksa box
+ * @return {String|Array|Buffer}
+ */
+function bodyRC4A(inp,res,ksa) {
+
+    var i = 0, j1 = 0, j2 = 0;
+    var s1 = ksa;
+    var s2 = s1.slice();
+    var res = res;
+    if (typeof (res) == 'string') {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            i = (i + 1) % 256;
+            j1 = (j1 + s1[i]) % 256;
+            s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+            res += String.fromCharCode(inp.charCodeAt(y)
+                    ^ s2[(s1[i] + s1[j1]) % 256]);
+            y++;
+            j2 = (j2 + s2[i]) % 256;
+            s2[j2] = [s2[i],s2[i] = s2[j2]][0];
+            res += String.fromCharCode(inp.charCodeAt(y)
+                    ^ s1[(s2[i] + s2[j2]) % 256]);
+        }
+    } else {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            i = (i + 1) % 256;
+            j1 = (j1 + s1[i]) % 256;
+            s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+            res[y] = inp[y] ^ s2[(s1[i] + s1[j1]) % 256];
+            y++;
+            j2 = (j2 + s2[i]) % 256;
+            s2[j2] = [s2[i],s2[i] = s2[j2]][0];
+            res[y] = inp[y] ^ s1[(s2[i] + s2[j1]) % 256];
+        }
+    }
+    return res;
+};
+/**
+ * body cipher VMPC
+ * 
+ * @function bodyVMPC
+ * @param {String|Array|Buffer} inp - input
+ * @param {String|Array|Buffer} res - response
+ * @param {Array} ksa - ksa box
+ * @return {String|Array|Buffer}
+ */
+function bodyVMPC(inp,res,ksa) {
+
+    var i = 0, j = 0;
+    var s = ksa;
+    var a = null, b = null;
+    var res = res;
+    if (typeof (res) == 'string') {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            a = s[i];
+            j = s[(j + a) % 256];
+            b = s[j];
+            res += String.fromCharCode(inp.charCodeAt(y) ^ s[s[b] + 1]);
+            s[j] = [a,s[i] = b][0];
+            i = (i + 1) % 256;
+        }
+    } else {
+        for (var y = 0, l = inp.length; y < l; y++) {
+            a = s[i];
+            j = s[(j + a) % 256];
+            b = s[j];
+            res[y] = inp[y] ^ s[s[b] + 1];
+            s[j] = [a,s[i] = b][0];
+            i = (i + 1) % 256;
+        }
+    }
+    return res;
+};
 /**
  * export class
  * 
@@ -75,7 +192,6 @@ function RC4(key) {
 
     this.key;
     this.change(key);
-    this.len = this.key.length;
 }
 /**
  * change user key
@@ -100,24 +216,6 @@ RC4.prototype.change = function(key) {
     return;
 };
 /**
- * generate ksa
- * 
- * @function ksa
- * @return {Array}
- */
-RC4.prototype.ksa = function(key) {
-
-    var j = 0;
-    var s = sbox();
-    var key = this.key;
-    var len = this.len;
-    for (var i = 0; i < 256; i++) {
-        j = (j + s[i] + key[i % len]) % 256;
-        s[j] = [s[i],s[i] = s[j]][0];
-    }
-    return s;
-};
-/**
  * RC4 string code
  * 
  * @function codeString
@@ -126,19 +224,10 @@ RC4.prototype.ksa = function(key) {
  */
 RC4.prototype.codeString = function(str) {
 
-    var res = '';
-    var i = 0, j = 0;
-    var s = this.ksa();
-    for (var y = 0, l = str.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j = (j + s[i]) % 256;
-        s[j] = [s[i],s[i] = s[j]][0];
-        res += String.fromCharCode(str.charCodeAt(y) ^ s[(s[i] + s[j]) % 256]);
-    }
-    return res;
+    return body(str,'',ksa(this.key));
 };
 /**
- * RC4 byte code
+ * RC4 array code
  * 
  * @function codeArray
  * @param {Array} arr - data
@@ -146,16 +235,8 @@ RC4.prototype.codeString = function(str) {
  */
 RC4.prototype.codeArray = function(arr) {
 
-    var res = new Array(arr.length);
-    var i = 0, j = 0;
-    var s = this.ksa();
-    for (var y = 0, l = arr.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j = (j + s[i]) % 256;
-        s[j] = [s[i],s[i] = s[j]][0];
-        res[y] = arr[y] ^ s[(s[i] + s[j]) % 256];
-    }
-    return res;
+    var out = new Array(arr.length);
+    return body(arr,out,ksa(this.key));
 };
 /**
  * RC4 buffer code
@@ -166,30 +247,22 @@ RC4.prototype.codeArray = function(arr) {
  */
 RC4.prototype.codeBuffer = function(buff) {
 
-    var res = new Buffer(buff.length);
-    var i = 0, j = 0;
-    var s = this.ksa();
-    for (var y = 0, l = buff.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j = (j + s[i]) % 256;
-        s[j] = [s[i],s[i] = s[j]][0];
-        res[y] = buff[y] ^ s[(s[i] + s[j]) % 256];
-    }
-    return res;
+    var out = new Buffer(buff.length);
+    return body(buff,out,ksa(this.key));
 };
 /**
  * RC4 mixed code. Alias for codeString or codeByte
  * 
  * @function code
- * @param {String|Array} boh - data
- * @return {String|Array}
+ * @param {String|Array|Buffer} boh - data
+ * @return {String|Array|Buffer}
  */
 RC4.prototype.code = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeString(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeByte(boh);
+        return this.codeArray(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBuffer(boh);
     } else {
@@ -206,87 +279,45 @@ RC4.prototype.code = function(boh) {
  */
 RC4.prototype.codeStringRC4A = function(str) {
 
-    var res = '';
-    var i = 0, j1 = 0, j2 = 0;
-    var s1 = this.ksa();
-    var s2 = s1.slice();
-    for (var y = 0, l = str.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j1 = (j1 + s1[i]) % 256;
-        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
-        res += String.fromCharCode(str.charCodeAt(y)
-                ^ s2[(s1[i] + s1[j1]) % 256]);
-        y++;
-        j2 = (j2 + s2[i]) % 256;
-        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-        res += String.fromCharCode(str.charCodeAt(y)
-                ^ s1[(s2[i] + s2[j2]) % 256]);
-    }
-    return res;
+    return bodyRC4A(str,'',ksa(this.key));
 };
 /**
- * RC4A byte code
+ * RC4A array code
  * 
- * @function codeByteRC4A
- * @param {Array} byt - data
+ * @function codeArrayRC4A
+ * @param {Array} arr - data
  * @return {Array}
  */
-RC4.prototype.codeByteRC4A = function(byt) {
+RC4.prototype.codeArrayRC4A = function(arr) {
 
-    var res = new Array(byt.length);
-    var i = 0, j1 = 0, j2 = 0;
-    var s1 = this.ksa();
-    var s2 = s1.slice();
-    for (var y = 0, l = byt.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j1 = (j1 + s1[i]) % 256;
-        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
-        res[y] = byt[y] ^ s2[(s1[i] + s1[j1]) % 256];
-        y++;
-        j2 = (j2 + s2[i]) % 256;
-        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-        res[y] = byt[y] ^ s1[(s2[i] + s2[j1]) % 256];
-    }
-    return res;
+    var out = new Array(arr.length);
+    return body(arr,out,ksa(this.key));
 };
 /**
  * RC4A buffer code
  * 
- * @function codeByfferRC4A
+ * @function codeBufferRC4A
  * @param {Buffer} buff - data
  * @return {Buffer}
  */
-RC4.prototype.codeByfferRC4A = function(buff) {
+RC4.prototype.codeBufferRC4A = function(buff) {
 
-    var res = new Byffer(buff.length);
-    var i = 0, j1 = 0, j2 = 0;
-    var s1 = this.ksa();
-    var s2 = s1.slice();
-    for (var y = 0, l = buff.length; y < l; y++) {
-        i = (i + 1) % 256;
-        j1 = (j1 + s1[i]) % 256;
-        s1[j1] = [s1[i],s1[i] = s1[j1]][0];
-        res[y] = buff[y] ^ s2[(s1[i] + s1[j1]) % 256];
-        y++;
-        j2 = (j2 + s2[i]) % 256;
-        s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-        res[y] = buff[y] ^ s1[(s2[i] + s2[j1]) % 256];
-    }
-    return res;
+    var out = new Buffer(buff.length);
+    return body(buff,out,ksa(this.key));
 };
 /**
  * RC4A mixed code. Alias for codeString or codeByte
  * 
  * @function codeRC4A
- * @param {String|Array} boh - data
- * @return {String|Array}
+ * @param {String|Array|Buffer} boh - data
+ * @return {String|Array|Buffer}
  */
 RC4.prototype.codeRC4A = function(boh) {
 
     if (typeof (boh) == 'string') {
         return this.codeStringRC4A(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeByteRC4A(boh);
+        return this.codeArrayRC4A(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBufferRC4A(boh);
     } else {
@@ -303,42 +334,19 @@ RC4.prototype.codeRC4A = function(boh) {
  */
 RC4.prototype.codeStringVMPC = function(str) {
 
-    var res = '';
-    var i = 0, j = 0;
-    var s = this.ksa();
-    var a = null, b = null;
-    for (var y = 0, l = str.length; y < l; y++) {
-        a = s[i];
-        j = s[(j + a) % 256];
-        b = s[j];
-        res += String.fromCharCode(str.charCodeAt(y) ^ s[s[b] + 1]);
-        s[j] = [a,s[i] = b][0];
-        i = (i + 1) % 256;
-    }
-    return res;
+    return bodyVMPC(str,'',ksa(this.key));
 };
 /**
- * VMPC byte code
+ * VMPC array code
  * 
- * @function codeByteVMPC
- * @param {Array} byt - data
+ * @function codeArrayVMPC
+ * @param {Array} arr - data
  * @return {Array}
  */
-RC4.prototype.codeByteVMPC = function(byt) {
+RC4.prototype.codeArrayVMPC = function(arr) {
 
-    var res = new Array(byt.length);
-    var i = 0, j = 0;
-    var s = this.ksa();
-    var a = null, b = null;
-    for (var y = 0, l = byt.length; y < l; y++) {
-        a = s[i];
-        j = s[(j + a) % 256];
-        b = s[j];
-        res[y] = byt[y] ^ s[s[b] + 1];
-        s[j] = [a,s[i] = b][0];
-        i = (i + 1) % 256;
-    }
-    return res;
+    var out = new Array(arr.length);
+    return bodyVMPC(arr,out,ksa(this.key));
 };
 /**
  * VMPC buffer code
@@ -349,19 +357,8 @@ RC4.prototype.codeByteVMPC = function(byt) {
  */
 RC4.prototype.codeBufferVMPC = function(buff) {
 
-    var res = new Buffer(buff.length);
-    var i = 0, j = 0;
-    var s = this.ksa();
-    var a = null, b = null;
-    for (var y = 0, l = buff.length; y < l; y++) {
-        a = s[i];
-        j = s[(j + a) % 256];
-        b = s[j];
-        res[y] = buff[y] ^ s[s[b] + 1];
-        s[j] = [a,s[i] = b][0];
-        i = (i + 1) % 256;
-    }
-    return res;
+    var out = new Buffer(buff.length);
+    return bodyVMPC(buff,out,ksa(this.key));
 };
 /**
  * VMPC mixed code. Alias for codeString or codeByte
@@ -375,7 +372,7 @@ RC4.prototype.codeVMPC = function(boh) {
     if (typeof (boh) == 'string') {
         return this.codeStringVMPC(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeByteVMPC(boh);
+        return this.codeArrayVMPC(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBufferVMPC(boh);
     } else {
