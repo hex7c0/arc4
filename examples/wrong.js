@@ -30,6 +30,6 @@ cipher.change('pluto'); // change key
 
 var e = cipher.codeString(d); // decrypt
 
-console.log('original: ' + b.toString());
-console.log('encrypt: ' + d.toString());
-console.log('decrypt: ' + e.toString());
+console.log('original: ' + b);
+console.log('encrypt: ' + d);
+console.log('decrypt: ' + e);

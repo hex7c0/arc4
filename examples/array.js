@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file byte example
+ * @file array example
  * @module arc4
  * @package arc4
  * @subpackage examples
@@ -24,9 +24,9 @@ var a = [112,105,112,112,111]; // key
 var b = [99,105,97,111]; // data
 var cipher = rc4(a);
 
-var d = cipher.codeByte(b); // encrypt
+var d = cipher.codeArray(b); // encrypt
 
-var e = cipher.codeByte(d); // decrypt
+var e = cipher.codeArray(d); // decrypt
 
 console.log('original: ' + b.toString());
 console.log('encrypt: ' + d.toString());
