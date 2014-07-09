@@ -4,7 +4,7 @@
  * @module arc4
  * @package arc4
  * @subpackage main
- * @version 1.2.0
+ * @version 2.0.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -38,20 +38,16 @@ function sbox() {
             254,255];
 }
 /**
- * convert string to byte
+ * body cipher
  * 
- * @function bytearray
- * @param {String} str - user key
- * @return {Array}
+ * @function body
+ * @param {String|Array|Buffer} res - response
+ * @param {Array} s - ksa box
+ * @return {String|Array|Buffer}
  */
-function bytearray(str) {
+function body(res,s) {
 
-    var l = str.length;
-    var bytes = new Array(l);
-    for (var i = 0; i < l; i++) {
-        bytes[i] = (str.charCodeAt(i));
-    }
-    return bytes;
+    return res
 }
 /**
  * export class
@@ -77,26 +73,29 @@ module.exports = function rc4(key) {
  */
 function RC4(key) {
 
-    this.key = '';
+    this.key;
     this.change(key);
     this.len = this.key.length;
-    return;
 }
 /**
  * change user key
  * 
  * @function change
- * @param {String!Array} key - user key
+ * @param {String|Array|Buffer} key - user key
  * @return
  */
 RC4.prototype.change = function(key) {
 
-    if (typeof (key) == 'string') {
-        this.key = bytearray(key);
-    } else if (Array.isArray(key)) {
+    this.key = new Array(key.legth);
+    if (Array.isArray(key)) {
         this.key = key;
+    } else if (typeof (key) == 'string' || Buffer.isBuffer(key)) {
+        key = new Buffer(key);
+        for (var i = 0, ii = key.length; i < ii; i++) {
+            this.key[i] = key[i];
+        }
     } else {
-        throw new Error('Invalid key');
+        throw new Error('Invalid data');
     }
     return;
 };
@@ -141,20 +140,20 @@ RC4.prototype.codeString = function(str) {
 /**
  * RC4 byte code
  * 
- * @function codeByte
- * @param {Array} byt - data
+ * @function codeArray
+ * @param {Array} arr - data
  * @return {Array}
  */
-RC4.prototype.codeByte = function(byt) {
+RC4.prototype.codeArray = function(arr) {
 
-    var res = new Array(byt.length);
+    var res = new Array(arr.length);
     var i = 0, j = 0;
     var s = this.ksa();
-    for (var y = 0, l = byt.length; y < l; y++) {
+    for (var y = 0, l = arr.length; y < l; y++) {
         i = (i + 1) % 256;
         j = (j + s[i]) % 256;
         s[j] = [s[i],s[i] = s[j]][0];
-        res[y] = byt[y] ^ s[(s[i] + s[j]) % 256];
+        res[y] = arr[y] ^ s[(s[i] + s[j]) % 256];
     }
     return res;
 };
