@@ -39,7 +39,7 @@ rc4.codeString('string');
 
 encode array data
 ```js
-rc4.codeByte([49,50,51]);
+rc4.codeArray([49,50,51]);
 ```
 
 encode buffer data
