@@ -14,12 +14,12 @@
  * functions
  */
 /**
- * build sbox
+ * generate sbox
  * 
- * @function sbox
+ * @function gSbox
  * @return {Array}
  */
-function sbox() {
+function gSbox() {
 
     return [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
             25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,
@@ -40,18 +40,18 @@ function sbox() {
 /**
  * generate ksa
  * 
- * @function ksa
+ * @function gKsa
  * @param {Array} key - user key
  * @return {Array}
  */
-function ksa(key) {
+function gKsa(key) {
 
     var j = 0;
-    var s = sbox();
-    var key = key;
-    var len = key.len;
+    var s = gSbox();
+    var ke = key;
+    var len = ke.length;
     for (var i = 0; i < 256; i++) {
-        j = (j + s[i] + key[i % len]) % 256;
+        j = (j + s[i] + ke[i % len]) % 256;
         s[j] = [s[i],s[i] = s[j]][0];
     }
     return s;
@@ -263,7 +263,7 @@ RC4.prototype.change = function(key) {
  */
 RC4.prototype.codeString = function(str) {
 
-    return body(str,'',ksa(this.key));
+    return body(str,'',gKsa(this.key));
 };
 /**
  * RC4 array code
@@ -274,8 +274,7 @@ RC4.prototype.codeString = function(str) {
  */
 RC4.prototype.codeArray = function(arr) {
 
-    var out = new Array(arr.length);
-    return body(arr,out,ksa(this.key));
+    return body(arr,new Array(arr.length),gKsa(this.key));
 };
 /**
  * RC4 buffer code
@@ -286,8 +285,7 @@ RC4.prototype.codeArray = function(arr) {
  */
 RC4.prototype.codeBuffer = function(buff) {
 
-    var out = new Buffer(buff.length);
-    return body(buff,out,ksa(this.key));
+    return body(buff,new Buffer(buff.length),gKsa(this.key));
 };
 /**
  * RC4 mixed code. Alias for codeString or codeByte
@@ -318,7 +316,7 @@ RC4.prototype.code = function(boh) {
  */
 RC4.prototype.codeStringRC4A = function(str) {
 
-    return bodyRC4A(str,'',ksa(this.key));
+    return bodyRC4A(str,'',gKsa(this.key));
 };
 /**
  * RC4A array code
@@ -329,8 +327,7 @@ RC4.prototype.codeStringRC4A = function(str) {
  */
 RC4.prototype.codeArrayRC4A = function(arr) {
 
-    var out = new Array(arr.length);
-    return body(arr,out,ksa(this.key));
+    return bodyRC4A(arr,new Array(arr.length),gKsa(this.key));
 };
 /**
  * RC4A buffer code
@@ -341,8 +338,7 @@ RC4.prototype.codeArrayRC4A = function(arr) {
  */
 RC4.prototype.codeBufferRC4A = function(buff) {
 
-    var out = new Buffer(buff.length);
-    return body(buff,out,ksa(this.key));
+    return bodyRC4A(buff,new Buffer(buff.length),gKsa(this.key));
 };
 /**
  * RC4A mixed code. Alias for codeString or codeByte
@@ -373,7 +369,7 @@ RC4.prototype.codeRC4A = function(boh) {
  */
 RC4.prototype.codeStringVMPC = function(str) {
 
-    return bodyVMPC(str,'',ksa(this.key));
+    return bodyVMPC(str,'',gKsa(this.key));
 };
 /**
  * VMPC array code
@@ -384,8 +380,7 @@ RC4.prototype.codeStringVMPC = function(str) {
  */
 RC4.prototype.codeArrayVMPC = function(arr) {
 
-    var out = new Array(arr.length);
-    return bodyVMPC(arr,out,ksa(this.key));
+    return bodyVMPC(arr,new Array(arr.length),gKsa(this.key));
 };
 /**
  * VMPC buffer code
@@ -396,8 +391,7 @@ RC4.prototype.codeArrayVMPC = function(arr) {
  */
 RC4.prototype.codeBufferVMPC = function(buff) {
 
-    var out = new Buffer(buff.length);
-    return bodyVMPC(buff,out,ksa(this.key));
+    return bodyVMPC(buff,new Buffer(buff.length),gKsa(this.key));
 };
 /**
  * VMPC mixed code. Alias for codeString or codeByte
@@ -428,7 +422,7 @@ RC4.prototype.codeVMPC = function(boh) {
  */
 RC4.prototype.codeStringRC4p = function(str) {
 
-    return bodyRC4p(str,'',ksa(this.key));
+    return bodyRC4p(str,'',gKsa(this.key));
 };
 /**
  * RC4p array code
@@ -439,8 +433,7 @@ RC4.prototype.codeStringRC4p = function(str) {
  */
 RC4.prototype.codeArrayRC4p = function(arr) {
 
-    var out = new Array(arr.length);
-    return bodyRC4p(arr,out,ksa(this.key));
+    return bodyRC4p(arr,new Array(arr.length),gKsa(this.key));
 };
 /**
  * RC4p buffer code
@@ -451,8 +444,7 @@ RC4.prototype.codeArrayRC4p = function(arr) {
  */
 RC4.prototype.codeBufferRC4p = function(buff) {
 
-    var out = new Buffer(buff.length);
-    return bodyRC4p(buff,out,ksa(this.key));
+    return bodyRC4p(buff,new Buffer(buff.length),gKsa(this.key));
 };
 /**
  * RC4p mixed code. Alias for codeString or codeByte
