@@ -14,13 +14,13 @@
  */
 // import
 try {
-    var rc4 = require('../index.js'); // use require('arc4') instead
+    var rc4 = require('../index.min.js'); // use require('arc4') instead
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
     process.exit(1);
 }
 
-var a = 'pippo'; // key
+var a = new Buffer('pippo'); // key
 var b = new Buffer('ciao'); // data
 var cipher = rc4(a);
 

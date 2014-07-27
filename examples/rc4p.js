@@ -14,7 +14,7 @@
  */
 // import
 try {
-    var rc4 = require('../index.js'); // use require('arc4') instead
+    var rc4 = require('../index.min.js'); // use require('arc4') instead
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
     process.exit(1);
@@ -24,9 +24,9 @@ var a = 'pippo'; // key
 var b = 'ciao'; // data
 var cipher = rc4(a);
 
-var d = cipher.codeStringRC4p(b); // encrypt
+var d = cipher.codeStringRC4P(b); // encrypt
 
-var e = cipher.codeStringRC4p(d); // decrypt
+var e = cipher.codeStringRC4P(d); // decrypt
 
 console.log('original: ' + b);
 console.log('encrypt: ' + d);

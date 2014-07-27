@@ -14,7 +14,7 @@
  */
 // import
 try {
-    var rc4 = require('../index.js'); // use require('arc4') instead
+    var rc4 = require('../index.min.js'); // use require('arc4') instead
     var fs = require('fs');
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
