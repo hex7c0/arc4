@@ -4,7 +4,7 @@
  * @module arc4
  * @package arc4
  * @subpackage main
- * @version 2.0.0
+ * @version 2.1.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -37,6 +37,7 @@ function gSbox() {
             238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,
             254,255];
 }
+
 /**
  * generate ksa
  * 
@@ -55,7 +56,8 @@ function gKsa(key) {
         s[j] = [s[i],s[i] = s[j]][0];
     }
     return s;
-};
+}
+
 /**
  * body cipher
  * 
@@ -68,26 +70,25 @@ function gKsa(key) {
 function body(inp,res,ksa) {
 
     var i = 0, j = 0;
-    var s = ksa;
-    var res = res;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            j = (j + s[i]) % 256;
-            s[j] = [s[i],s[i] = s[j]][0];
+            j = (j + ksa[i]) % 256;
+            ksa[j] = [ksa[i],ksa[i] = ksa[j]][0];
             res += String.fromCharCode(inp.charCodeAt(y)
-                    ^ s[(s[i] + s[j]) % 256]);
+                    ^ ksa[(ksa[i] + ksa[j]) % 256]);
         }
     } else {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            j = (j + s[i]) % 256;
-            s[j] = [s[i],s[i] = s[j]][0];
-            res[y] = inp[y] ^ s[(s[i] + s[j]) % 256];
+            j = (j + ksa[i]) % 256;
+            ksa[j] = [ksa[i],ksa[i] = ksa[j]][0];
+            res[y] = inp[y] ^ ksa[(ksa[i] + ksa[j]) % 256];
         }
     }
     return res;
 }
+
 /**
  * body cipher RC4A
  * 
@@ -100,36 +101,35 @@ function body(inp,res,ksa) {
 function bodyRC4A(inp,res,ksa) {
 
     var i = 0, j1 = 0, j2 = 0;
-    var s1 = ksa;
-    var s2 = s1.slice();
-    var res = res;
+    var s2 = ksa.slice();
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            j1 = (j1 + s1[i]) % 256;
-            s1[j1] = [s1[i],s1[i] = s1[j1]][0];
+            j1 = (j1 + ksa[i]) % 256;
+            ksa[j1] = [ksa[i],ksa[i] = ksa[j1]][0];
             res += String.fromCharCode(inp.charCodeAt(y)
-                    ^ s2[(s1[i] + s1[j1]) % 256]);
+                    ^ s2[(ksa[i] + ksa[j1]) % 256]);
             y++;
             j2 = (j2 + s2[i]) % 256;
             s2[j2] = [s2[i],s2[i] = s2[j2]][0];
             res += String.fromCharCode(inp.charCodeAt(y)
-                    ^ s1[(s2[i] + s2[j2]) % 256]);
+                    ^ ksa[(s2[i] + s2[j2]) % 256]);
         }
     } else {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            j1 = (j1 + s1[i]) % 256;
-            s1[j1] = [s1[i],s1[i] = s1[j1]][0];
-            res[y] = inp[y] ^ s2[(s1[i] + s1[j1]) % 256];
+            j1 = (j1 + ksa[i]) % 256;
+            ksa[j1] = [ksa[i],ksa[i] = ksa[j1]][0];
+            res[y] = inp[y] ^ s2[(ksa[i] + ksa[j1]) % 256];
             y++;
             j2 = (j2 + s2[i]) % 256;
             s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-            res[y] = inp[y] ^ s1[(s2[i] + s2[j1]) % 256];
+            res[y] = inp[y] ^ ksa[(s2[i] + s2[j1]) % 256];
         }
     }
     return res;
-};
+}
+
 /**
  * body cipher VMPC
  * 
@@ -142,69 +142,67 @@ function bodyRC4A(inp,res,ksa) {
 function bodyVMPC(inp,res,ksa) {
 
     var i = 0, j = 0;
-    var s = ksa;
-    var a = null, b = null;
-    var res = res;
+    var a, b;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
-            a = s[i];
-            j = s[(j + a) % 256];
-            b = s[j];
-            res += String.fromCharCode(inp.charCodeAt(y) ^ s[s[b] + 1]);
-            s[j] = [a,s[i] = b][0];
+            a = ksa[i];
+            j = ksa[(j + a) % 256];
+            b = ksa[j];
+            res += String.fromCharCode(inp.charCodeAt(y) ^ ksa[ksa[b] + 1]);
+            ksa[j] = [a,ksa[i] = b][0];
             i = (i + 1) % 256;
         }
     } else {
         for (var y = 0, l = inp.length; y < l; y++) {
-            a = s[i];
-            j = s[(j + a) % 256];
-            b = s[j];
-            res[y] = inp[y] ^ s[s[b] + 1];
-            s[j] = [a,s[i] = b][0];
+            a = ksa[i];
+            j = ksa[(j + a) % 256];
+            b = ksa[j];
+            res[y] = inp[y] ^ ksa[ksa[b] + 1];
+            ksa[j] = [a,ksa[i] = b][0];
             i = (i + 1) % 256;
         }
     }
     return res;
-};
+}
+
 /**
- * body cipher RC4p
+ * body cipher RC4P
  * 
- * @function bodyRC4p
+ * @function bodyRC4P
  * @param {String|Array|Buffer} inp - input
  * @param {String|Array|Buffer} res - response
  * @param {Array} ksa - ksa box
  * @return {String|Array|Buffer}
  */
-function bodyRC4p(inp,res,ksa) {
+function bodyRC4P(inp,res,ksa) {
 
     var i = 0, j = 0;
-    var s = ksa;
-    var a = null, b = null, c = null;
-    var res = res;
+    var a, b, c;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            a = s[i];
-            j = s[(j + a) % 256];
-            b = s[j];
-            s[j] = [a,s[i] = b][0];
-            c = (s[i << 5 ^ j >> 3] + s[j << 5 ^ i >> 3]) % 256;
+            a = ksa[i];
+            j = ksa[(j + a) % 256];
+            b = ksa[j];
+            ksa[j] = [a,ksa[i] = b][0];
+            c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256;
             res += String.fromCharCode(inp.charCodeAt(y)
-                    ^ (s[a + b] + s[c ^ 0xAA]) ^ s[j + b]);
+                    ^ (ksa[a + b] + ksa[c ^ 0xAA]) ^ ksa[j + b]);
         }
     } else {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
-            a = s[i];
-            j = s[(j + a) % 256];
-            b = s[j];
-            s[j] = [a,s[i] = b][0];
-            c = (s[i << 5 ^ j >> 3] + s[j << 5 ^ i >> 3]) % 256;
-            res[y] = inp[y] ^ (s[a + b] + s[c ^ 0xAA]) ^ s[j + b];
+            a = ksa[i];
+            j = ksa[(j + a) % 256];
+            b = ksa[j];
+            ksa[j] = [a,ksa[i] = b][0];
+            c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256;
+            res[y] = inp[y] ^ (ksa[a + b] + ksa[c ^ 0xAA]) ^ ksa[j + b];
         }
     }
     return res;
-};
+}
+
 /**
  * export class
  * 
@@ -414,53 +412,53 @@ RC4.prototype.codeVMPC = function(boh) {
     return;
 };
 /**
- * RC4p string code
+ * RC4P string code
  * 
- * @function codeStringRC4p
+ * @function codeStringRC4P
  * @param {String} str - data
  * @return {String}
  */
-RC4.prototype.codeStringRC4p = function(str) {
+RC4.prototype.codeStringRC4P = function(str) {
 
-    return bodyRC4p(str,'',gKsa(this.key));
+    return bodyRC4P(str,'',gKsa(this.key));
 };
 /**
- * RC4p array code
+ * RC4P array code
  * 
- * @function codeArrayRC4p
+ * @function codeArrayRC4P
  * @param {Array} arr - data
  * @return {Array}
  */
-RC4.prototype.codeArrayRC4p = function(arr) {
+RC4.prototype.codeArrayRC4P = function(arr) {
 
-    return bodyRC4p(arr,new Array(arr.length),gKsa(this.key));
+    return bodyRC4P(arr,new Array(arr.length),gKsa(this.key));
 };
 /**
- * RC4p buffer code
+ * RC4P buffer code
  * 
- * @function codeBufferRC4p
+ * @function codeBufferRC4P
  * @param {Buffer} buff - data
  * @return {Buffer}
  */
-RC4.prototype.codeBufferRC4p = function(buff) {
+RC4.prototype.codeBufferRC4P = function(buff) {
 
-    return bodyRC4p(buff,new Buffer(buff.length),gKsa(this.key));
+    return bodyRC4P(buff,new Buffer(buff.length),gKsa(this.key));
 };
 /**
- * RC4p mixed code. Alias for codeString or codeByte
+ * RC4P mixed code. Alias for codeString or codeByte
  * 
- * @function codeRC4p
+ * @function codeRC4P
  * @param {String|Array|Array} boh - data
  * @return {String|Array|Array}
  */
-RC4.prototype.codeRC4p = function(boh) {
+RC4.prototype.codeRC4P = function(boh) {
 
     if (typeof (boh) == 'string') {
-        return this.codeStringRC4p(boh);
+        return this.codeStringRC4P(boh);
     } else if (Array.isArray(boh)) {
-        return this.codeArrayRC4p(boh);
+        return this.codeArrayRC4P(boh);
     } else if (Buffer.isBuffer(boh)) {
-        return this.codeBufferRC4p(boh);
+        return this.codeBufferRC4P(boh);
     } else {
         throw new Error('Invalid data');
     }
