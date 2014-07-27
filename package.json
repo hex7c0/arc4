@@ -15,7 +15,8 @@
     "email": "hex7c0@gmail.com",
     "url": "http://hex7c0.tk/"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "mocha": "~1.21.0",
     "grunt": "~0.4.5",
