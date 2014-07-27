@@ -1,7 +1,7 @@
 .git*
 .project
 .settings
-.travis.xml
+.travis.yml
 .DS_Store
 index.js
 Gruntfile.js
