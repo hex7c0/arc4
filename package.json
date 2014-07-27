@@ -2,7 +2,7 @@
   "name": "arc4",
   "version": "2.1.0",
   "description": "rc4 stream cipher",
-  "main": "index.js",
+  "main": "index.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/hex7c0/arc4.git"
