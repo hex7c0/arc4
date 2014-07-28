@@ -41,7 +41,7 @@
     "node": ">=0.10"
   },
   "scripts": {
-    "prepublish": "npm prune && grunt",
+    "prepublish": "npm prune",
     "test": "mocha --bail --check-leaks test/"
   },
   "license": "GPLv3"
