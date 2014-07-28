@@ -1,20 +1,33 @@
 {
-  "name": "arc4",
   "version": "2.1.0",
+  "name": "arc4",
   "description": "rc4 stream cipher",
-  "main": "index.min.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/hex7c0/arc4.git"
-  },
-  "bugs": {
-    "url": "https://github.com/hex7c0/arc4/issues"
-  },
+  "keywords": [
+    "arc4",
+    "rc4",
+    "stream",
+    "cipher"
+  ],
+  "preferGlobal": false,
+  "homepage": "https://github.com/hex7c0/arc4/",
   "author": {
     "name": "hex7c0",
     "email": "hex7c0@gmail.com",
     "url": "http://hex7c0.tk/"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hex7c0/arc4.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hex7c0/arc4/issues",
+    "email": "hex7c0@gmail.com"
+  },
+  "directories":{
+    "doc":"./doc",
+    "lib":"./lib"
+  },
+  "main": "index.min.js",
   "dependencies": {
   },
   "devDependencies": {
@@ -22,21 +35,14 @@
     "grunt": "~0.4.5",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-uglify": "0.5.0",
-    "load-grunt-tasks": "~0.6.0"
+    "grunt-shell": "0.7.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.10"
   },
   "scripts": {
-    "prepublish": "npm prune",
+    "prepublish": "npm prune && grunt",
     "test": "mocha --bail --check-leaks test/"
   },
-  "keywords": [
-    "arc4",
-    "rc4",
-    "stream",
-    "cipher"
-  ],
-  "license": "GPLv3",
-  "homepage": "https://github.com/hex7c0/arc4/"
+  "license": "GPLv3"
 }

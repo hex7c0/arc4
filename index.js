@@ -222,7 +222,7 @@ module.exports = function rc4(key) {
  * RC4 class
  * 
  * @class RC4
- * @param {String|Array} key - user key
+ * @param {String|Array|Buffer} key - user key
  * @return {Object}
  */
 function RC4(key) {
@@ -235,7 +235,6 @@ function RC4(key) {
  * 
  * @function change
  * @param {String|Array|Buffer} key - user key
- * @return
  */
 RC4.prototype.change = function(key) {
 
