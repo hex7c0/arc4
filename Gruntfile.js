@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         },
 
         shell: {
-            options: { // Options
+            options: {
                 failOnError: false
             },
             docs: {
@@ -54,6 +54,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('min',['clean','uglify']);
     grunt.registerTask('doc',['shell']);
-    grunt.registerTask('default',['min','shell']);
+    grunt.registerTask('default',['min']);
 
 };
