@@ -1,11 +1,12 @@
 .git*
 .project
+.jsdoc.json
 .settings
 .travis.yml
 .DS_Store
 index.js
 Gruntfile.js
 examples/
-lib/
 module/
+lib/
 test/
