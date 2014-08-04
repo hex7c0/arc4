@@ -70,12 +70,13 @@ function gKsa(key) {
 function body(inp,res,ksa) {
 
     var i = 0, j = 0;
+    var out = res;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
             j = (j + ksa[i]) % 256;
             ksa[j] = [ksa[i],ksa[i] = ksa[j]][0];
-            res += String.fromCharCode(inp.charCodeAt(y)
+            out += String.fromCharCode(inp.charCodeAt(y)
                     ^ ksa[(ksa[i] + ksa[j]) % 256]);
         }
     } else {
@@ -83,10 +84,10 @@ function body(inp,res,ksa) {
             i = (i + 1) % 256;
             j = (j + ksa[i]) % 256;
             ksa[j] = [ksa[i],ksa[i] = ksa[j]][0];
-            res[y] = inp[y] ^ ksa[(ksa[i] + ksa[j]) % 256];
+            out[y] = inp[y] ^ ksa[(ksa[i] + ksa[j]) % 256];
         }
     }
-    return res;
+    return out;
 }
 
 /**
@@ -102,17 +103,18 @@ function bodyRC4A(inp,res,ksa) {
 
     var i = 0, j1 = 0, j2 = 0;
     var s2 = ksa.slice();
+    var out = res;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
             j1 = (j1 + ksa[i]) % 256;
             ksa[j1] = [ksa[i],ksa[i] = ksa[j1]][0];
-            res += String.fromCharCode(inp.charCodeAt(y)
+            out += String.fromCharCode(inp.charCodeAt(y)
                     ^ s2[(ksa[i] + ksa[j1]) % 256]);
             y++;
             j2 = (j2 + s2[i]) % 256;
             s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-            res += String.fromCharCode(inp.charCodeAt(y)
+            out += String.fromCharCode(inp.charCodeAt(y)
                     ^ ksa[(s2[i] + s2[j2]) % 256]);
         }
     } else {
@@ -120,14 +122,14 @@ function bodyRC4A(inp,res,ksa) {
             i = (i + 1) % 256;
             j1 = (j1 + ksa[i]) % 256;
             ksa[j1] = [ksa[i],ksa[i] = ksa[j1]][0];
-            res[y] = inp[y] ^ s2[(ksa[i] + ksa[j1]) % 256];
+            out[y] = inp[y] ^ s2[(ksa[i] + ksa[j1]) % 256];
             y++;
             j2 = (j2 + s2[i]) % 256;
             s2[j2] = [s2[i],s2[i] = s2[j2]][0];
-            res[y] = inp[y] ^ ksa[(s2[i] + s2[j1]) % 256];
+            out[y] = inp[y] ^ ksa[(s2[i] + s2[j1]) % 256];
         }
     }
-    return res;
+    return out;
 }
 
 /**
@@ -143,12 +145,13 @@ function bodyVMPC(inp,res,ksa) {
 
     var i = 0, j = 0;
     var a, b;
+    var out = res;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             a = ksa[i];
             j = ksa[(j + a) % 256];
             b = ksa[j];
-            res += String.fromCharCode(inp.charCodeAt(y) ^ ksa[ksa[b] + 1]);
+            out += String.fromCharCode(inp.charCodeAt(y) ^ ksa[ksa[b] + 1]);
             ksa[j] = [a,ksa[i] = b][0];
             i = (i + 1) % 256;
         }
@@ -157,12 +160,12 @@ function bodyVMPC(inp,res,ksa) {
             a = ksa[i];
             j = ksa[(j + a) % 256];
             b = ksa[j];
-            res[y] = inp[y] ^ ksa[ksa[b] + 1];
+            out[y] = inp[y] ^ ksa[ksa[b] + 1];
             ksa[j] = [a,ksa[i] = b][0];
             i = (i + 1) % 256;
         }
     }
-    return res;
+    return out;
 }
 
 /**
@@ -178,6 +181,7 @@ function bodyRC4P(inp,res,ksa) {
 
     var i = 0, j = 0;
     var a, b, c;
+    var out = res;
     if (typeof (res) == 'string') {
         for (var y = 0, l = inp.length; y < l; y++) {
             i = (i + 1) % 256;
@@ -186,7 +190,7 @@ function bodyRC4P(inp,res,ksa) {
             b = ksa[j];
             ksa[j] = [a,ksa[i] = b][0];
             c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256;
-            res += String.fromCharCode(inp.charCodeAt(y)
+            out += String.fromCharCode(inp.charCodeAt(y)
                     ^ (ksa[a + b] + ksa[c ^ 0xAA]) ^ ksa[j + b]);
         }
     } else {
@@ -197,10 +201,10 @@ function bodyRC4P(inp,res,ksa) {
             b = ksa[j];
             ksa[j] = [a,ksa[i] = b][0];
             c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256;
-            res[y] = inp[y] ^ (ksa[a + b] + ksa[c ^ 0xAA]) ^ ksa[j + b];
+            out[y] = inp[y] ^ (ksa[a + b] + ksa[c ^ 0xAA]) ^ ksa[j + b];
         }
     }
-    return res;
+    return out;
 }
 
 /**
@@ -242,7 +246,7 @@ RC4.prototype.change = function(key) {
     if (Array.isArray(key)) {
         this.key = key;
     } else if (typeof (key) == 'string' || Buffer.isBuffer(key)) {
-        key = new Buffer(key);
+        var key = new Buffer(key);
         for (var i = 0, ii = key.length; i < ii; i++) {
             this.key[i] = key[i];
         }
@@ -299,9 +303,8 @@ RC4.prototype.code = function(boh) {
         return this.codeArray(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBuffer(boh);
-    } else {
-        throw new Error('Invalid data');
     }
+    throw new Error('Invalid data');
     return;
 };
 /**
@@ -352,9 +355,8 @@ RC4.prototype.codeRC4A = function(boh) {
         return this.codeArrayRC4A(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBufferRC4A(boh);
-    } else {
-        throw new Error('Invalid data');
     }
+    throw new Error('Invalid data');
     return;
 };
 /**
@@ -405,9 +407,8 @@ RC4.prototype.codeVMPC = function(boh) {
         return this.codeArrayVMPC(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBufferVMPC(boh);
-    } else {
-        throw new Error('Invalid data');
     }
+    throw new Error('Invalid data');
     return;
 };
 /**
@@ -458,8 +459,7 @@ RC4.prototype.codeRC4P = function(boh) {
         return this.codeArrayRC4P(boh);
     } else if (Buffer.isBuffer(boh)) {
         return this.codeBufferRC4P(boh);
-    } else {
-        throw new Error('Invalid data');
     }
+    throw new Error('Invalid data');
     return;
 };
