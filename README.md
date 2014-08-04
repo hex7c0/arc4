@@ -18,6 +18,10 @@ or
 ```
 git clone git://github.com/hex7c0/arc4.git
 ```
+or
+```
+http://supergiovane.tk/#/arc4
+```
 
 ## API
 
