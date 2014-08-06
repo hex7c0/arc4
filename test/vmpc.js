@@ -39,6 +39,16 @@ describe('vmpc',function() {
         assert.deepEqual(b,e,'clear');
         assert.notDeepEqual(b,d,'orig - encrypt');
         assert.notDeepEqual(e,d,'encrypt - decrypt');
+
+        var cipher = rc4(a,true);
+        var dd = cipher.codeStringVMPC(b); // encrypt
+        var ee = cipher.codeStringVMPC(dd); // decrypt
+        assert.deepEqual(b,ee,'lodash');
+        assert.notDeepEqual(b,dd,'orig - encrypt');
+        assert.notDeepEqual(ee,dd,'encrypt - decrypt');
+
+        assert.deepEqual(d,dd,'encrypt');
+        assert.deepEqual(e,ee,'decrypt');
         done();
     });
 
@@ -52,6 +62,16 @@ describe('vmpc',function() {
         assert.deepEqual(b,e,'clear');
         assert.notDeepEqual(b,d,'orig - encrypt');
         assert.notDeepEqual(e,d,'encrypt - decrypt');
+
+        var cipher = rc4(a,true);
+        var dd = cipher.codeArrayVMPC(b); // encrypt
+        var ee = cipher.codeArrayVMPC(dd); // decrypt
+        assert.deepEqual(b,ee,'lodash');
+        assert.notDeepEqual(b,dd,'orig - encrypt');
+        assert.notDeepEqual(ee,dd,'encrypt - decrypt');
+
+        assert.deepEqual(d,dd,'encrypt');
+        assert.deepEqual(e,ee,'decrypt');
         done();
     });
 
@@ -65,6 +85,16 @@ describe('vmpc',function() {
         assert.deepEqual(b,e,'clear');
         assert.notDeepEqual(b,d,'orig - encrypt');
         assert.notDeepEqual(e,d,'encrypt - decrypt');
+
+        var cipher = rc4(a,true);
+        var dd = cipher.codeBufferVMPC(b); // encrypt
+        var ee = cipher.codeBufferVMPC(dd); // decrypt
+        assert.deepEqual(b,ee,'lodash');
+        assert.notDeepEqual(b,dd,'orig - encrypt');
+        assert.notDeepEqual(ee,dd,'encrypt - decrypt');
+
+        assert.deepEqual(d,dd,'encrypt');
+        assert.deepEqual(e,ee,'decrypt');
         done();
     });
 
