@@ -24,10 +24,12 @@
     "email": "hex7c0@gmail.com"
   },
   "directories":{
-    "doc":"./doc"
+    "doc":"./doc",
+    "lib":"./min/lib"
   },
   "main": "index.min.js",
   "dependencies": {
+    "lodash": "2.4.1"
   },
   "devDependencies": {
     "mocha": "~1.21.3",
