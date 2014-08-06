@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file arc4 test
+ * @file benchmark test
  * @module arc4
  * @package arc4
  * @subpackage test
@@ -40,7 +40,7 @@ var bbb = new Buffer(
 /*
  * test module
  */
-describe('performance',function() {
+describe('benchmark',function() {
 
     describe('arc4',function() {
 

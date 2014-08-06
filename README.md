@@ -70,7 +70,7 @@ rc4.codeRC4P(your_data);
 ### rc4(key,[lodash])
 
  - `key` - **String | Array | Buffer** Your key *(default "throw Error")*
- - `lodash` - **Boolean** Use lodash library (check [performance](https://github.com/hex7c0/arc4/tree/master/test/performance.js) test for right decision) *(default "disabled")*
+ - `lodash` - **Boolean** Use lodash library (check [benchmark](https://github.com/hex7c0/arc4/tree/master/test/benchmark.js) test for right decision) *(default "disabled")*
 
 #### Examples
 

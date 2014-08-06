@@ -22,13 +22,13 @@ var min = __dirname + '/min/lib/';
 /**
  * export
  * 
- * @exports rc4
- * @function rc4
+ * @exports arc4
+ * @function arc4
  * @params {String} key - user key
  * @params {Boolean} [lodash] - flag
  * @return {RC4}
  */
-module.exports = function rc4(key,lodash) {
+module.exports = function arc4(key,lodash) {
 
     if (lodash) {
         return require(min + 'lodash.js')(key);
