@@ -1,4 +1,4 @@
-# [arc4](https://github.com/hex7c0/arc4)
+# [arc4](http://supergiovane.tk/#/arc4)
 [![NPM version](https://badge.fury.io/js/arc4.svg)](http://badge.fury.io/js/arc4)
 [![Build Status](https://travis-ci.org/hex7c0/arc4.svg?branch=master)](https://travis-ci.org/hex7c0/arc4)
 [![devDependency Status](https://david-dm.org/hex7c0/arc4/dev-status.svg)](https://david-dm.org/hex7c0/arc4#info=devDependencies)
@@ -67,9 +67,10 @@ same methods with `RC4P` postifx for [RC4+](https://en.wikipedia.org/wiki/RC4#RC
 rc4.codeRC4P(your_data);
 ```
 
-### rc4(param)
+### rc4(key,[lodash])
 
- - `param` - **String | Array | Buffer** Your key *(default "throw Error")*
+ - `key` - **String | Array | Buffer** Your key *(default "throw Error")*
+ - `lodash` - **Boolean** Use lodash library (check [performance](https://github.com/hex7c0/arc4/tree/master/test/performance.js) test for right decision) *(default "disabled")*
 
 #### Examples
 
