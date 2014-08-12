@@ -1,4 +1,5 @@
 # [arc4](http://supergiovane.tk/#/arc4)
+
 [![NPM version](https://badge.fury.io/js/arc4.svg)](http://badge.fury.io/js/arc4)
 [![Build Status](https://travis-ci.org/hex7c0/arc4.svg?branch=master)](https://travis-ci.org/hex7c0/arc4)
 [![devDependency Status](https://david-dm.org/hex7c0/arc4/dev-status.svg)](https://david-dm.org/hex7c0/arc4#info=devDependencies)
@@ -11,16 +12,12 @@ my original [python code](https://github.com/hex7c0/EncryptoPy/blob/master/modul
 
 Install through NPM
 
-```
+```bash
 npm install arc4
 ```
 or
-```
+```bash
 git clone git://github.com/hex7c0/arc4.git
-```
-or
-```
-http://supergiovane.tk/#/arc4
 ```
 
 ## API
@@ -32,7 +29,7 @@ var rc4 = require('arc4')('secret_key');
 rc4.codeString('foo');
 ```
 
-### methods
+### Methods
 
 change your key (warning)
 ```js
@@ -69,14 +66,16 @@ rc4.codeRC4P(your_data);
 
 ### rc4(key,[lodash])
 
+#### key
+
  - `key` - **String | Array | Buffer** Your key *(default "throw Error")*
+
+#### [lodash]
+
  - `lodash` - **Boolean** Use lodash library (check [benchmark](https://github.com/hex7c0/arc4/tree/master/test/benchmark.js) test for right decision) *(default "disabled")*
 
-#### Examples
+## Examples
 
 Take a look at my [examples](https://github.com/hex7c0/arc4/tree/master/examples)
 
-## License
-Copyright (c) 2014 hex7c0
-
-Licensed under the GPLv3 license
+### [License GPLv3](http://opensource.org/licenses/GPL-3.0)
