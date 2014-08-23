@@ -1,5 +1,5 @@
 {
-  "version": "2.2.2",
+  "version": "2.2.3",
   "name": "arc4",
   "description": "rc4 stream cipher",
   "keywords": [
@@ -33,9 +33,9 @@
   },
   "devDependencies": {
     "mocha": "~1.21.4",
-    "grunt-contrib-clean": "0.5.0",
-    "grunt-contrib-uglify": "0.5.0",
-    "grunt-shell": "~0.7.0"
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-shell": "~1.0.1"
   },
   "engines": {
     "node": ">=0.10"

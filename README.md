@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/arc4.svg)](http://badge.fury.io/js/arc4)
 [![Build Status](https://travis-ci.org/hex7c0/arc4.svg?branch=master)](https://travis-ci.org/hex7c0/arc4)
-[![devDependency Status](https://david-dm.org/hex7c0/arc4/dev-status.svg)](https://david-dm.org/hex7c0/arc4#info=devDependencies)
+[![Dependency Status](https://david-dm.org/hex7c0/arc4/status.svg)](https://david-dm.org/hex7c0/arc4)
 
 [RC4](https://en.wikipedia.org/wiki/RC4) stream cipher
 
