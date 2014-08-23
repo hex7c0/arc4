@@ -4,7 +4,7 @@
  * @module arc4
  * @package arc4
  * @subpackage main
- * @version 2.2.0
+ * @version 2.2.3
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -28,7 +28,7 @@ var min = __dirname + '/min/lib/';
  * @params {Boolean} [lodash] - flag
  * @return {RC4}
  */
-module.exports = function arc4(key,lodash) {
+module.exports = function arc4(key, lodash) {
 
     if (lodash) {
         return require(min + 'lodash.js')(key);
