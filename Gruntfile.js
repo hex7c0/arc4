@@ -16,26 +16,25 @@ module.exports = function(grunt) {
                 + ' * (c) <%= pkg.author.name %> <%= pkg.homepage %>\n'
                 + ' * Licensed under <%= pkg.license %>\n' + ' */\n',
 
-        clean: ['index.min.js','min/**/*.js'],
+        clean: [ 'index.min.js', 'min/**/*.js' ],
 
         uglify: {
             options: {
                 preserveComments: 'false',
-                banner: '<%= banner %>',
-                footer: '\n'
+                banner: '<%= banner %>'
             },
             target: {
-                files: [{
+                files: [ {
                     expand: true,
                     src: 'lib/*.js',
                     dest: 'min'
-                },{
+                }, {
                     expand: true,
                     src: 'module/*.js',
                     dest: 'min'
-                },{
+                }, {
                     'index.min.js': 'index.js'
-                }]
+                } ]
             }
         },
 
@@ -46,17 +45,37 @@ module.exports = function(grunt) {
             docs: {
                 command: 'jsdoc ./lib/*.js ./module/*.js -c .jsdoc.json'
             }
+        },
+
+        endline: {
+            target: {
+                files: [ {
+                    src: 'examples/**/*.js'
+                }, {
+                    src: 'public/**/*.js'
+                }, {
+                    src: 'min/**/*.js'
+                }, {
+                    src: 'module/**/*.js'
+                }, {
+                    src: 'lib/**/*.js'
+                }, {
+                    src: 'test/**/*.js'
+                }, {
+                    'index.min.js': 'index.min.js'
+                } ]
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-endline');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('min',['clean','uglify']);
-    grunt.registerTask('doc',['shell']);
-    grunt.registerTask('default',['min','doc']);
+    grunt.registerTask('min', [ 'clean', 'uglify', 'endline' ]);
+    grunt.registerTask('doc', [ 'shell' ]);
+    grunt.registerTask('default', [ 'min', 'doc' ]);
 
     return;
 };
-
