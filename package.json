@@ -35,6 +35,7 @@
     "mocha": "~1.21.4",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-uglify": "~0.5.1",
+    "grunt-endline": "~0.1.0",
     "grunt-shell": "~1.0.1"
   },
   "engines": {
