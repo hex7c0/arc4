@@ -49,20 +49,11 @@ module.exports = function(grunt) {
 
         endline: {
             target: {
+                options: {
+                    except: 'node_modules'
+                },
                 files: [ {
-                    src: 'examples/**/*.js'
-                }, {
-                    src: 'public/**/*.js'
-                }, {
-                    src: 'min/**/*.js'
-                }, {
-                    src: 'module/**/*.js'
-                }, {
-                    src: 'lib/**/*.js'
-                }, {
-                    src: 'test/**/*.js'
-                }, {
-                    'index.min.js': 'index.min.js'
+                    src: './**/*.js'
                 } ]
             }
         }
