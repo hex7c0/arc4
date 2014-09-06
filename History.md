@@ -1,3 +1,9 @@
+v2.2.5 / 2014-09-06
+==================
+
+  * Testing input_encoding (normal string only)
+  * Testing output_encoding (normal string only)
+
 v2.2.3 / 2014-08-23
 ==================
 
