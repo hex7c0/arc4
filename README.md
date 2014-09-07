@@ -4,9 +4,10 @@
 [![Build Status](https://travis-ci.org/hex7c0/arc4.svg?branch=master)](https://travis-ci.org/hex7c0/arc4)
 [![Dependency Status](https://david-dm.org/hex7c0/arc4/status.svg)](https://david-dm.org/hex7c0/arc4)
 
-[RC4](https://en.wikipedia.org/wiki/RC4) stream cipher
+[RC4](https://en.wikipedia.org/wiki/RC4) stream cipher.
+You can select from ['[arc4](https://en.wikipedia.org/wiki/RC4)', '[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)', '[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)', '[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)'] algorithm, and encode/decode with different [encodings](http://nodejs.org/api/buffer.html#apicontent) for *String only.
 
-my original [python code](https://github.com/hex7c0/EncryptoPy/blob/master/modules/rc/rc4.py)
+My original [python code](https://github.com/hex7c0/EncryptoPy/blob/master/modules/rc/rc4.py)
 
 ## Installation
 
@@ -24,55 +25,58 @@ git clone git://github.com/hex7c0/arc4.git
 
 inside nodejs project
 ```js
-var rc4 = require('arc4')('secret_key');
+var rc4 = require('arc4');
 
-rc4.codeString('foo');
+var cipher = rc4('arc4', 'secret_key');
+var d = cipher.encodeString('ciao');
+var e = cipher.decodeString(d);
 ```
 
 ### Methods
 
-change your key (warning)
+change your key (warning) and reload gKsa
 ```js
-rc4.change('foo');
+cipher.change('foo');
 ```
+
 encode string data
 ```js
-rc4.codeString('string');
+cipher.encodeString('string');
 ```
+
 encode array data
 ```js
-rc4.codeArray([49,50,51]);
+cipher.encodeArray([49,50,51]);
 ```
+
 encode buffer data
 ```js
-rc4.codeBuffer(new Buffer('ciao'));
-```
-encode string, byte or buffer
-```js
-rc4.code(your_data);
-```
-same methods with `RC4A` postifx for [RC4A](https://en.wikipedia.org/wiki/RC4#RC4A)
-```js
-rc4.codeRC4A(your_data);
-```
-same methods with `VMPC` postifx for [VMPC](https://en.wikipedia.org/wiki/RC4#VMPC)
-```js
-rc4.codeVMPC(your_data);
-```
-same methods with `RC4P` postifx for [RC4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)
-```js
-rc4.codeRC4P(your_data);
+cipher.encodeBuffer(new Buffer('ciao'));
 ```
 
-### rc4(key,[lodash])
+encode string or byte or buffer (switch type)
+```js
+cipher.encode(your_data);
+```
 
-#### key
+for decoding, change "encode*" to "decode*"
+```js
+cipher.decode(your_data);
+```
 
- - `key` - **String | Array | Buffer** Your key *(default "throw Error")*
+### rc4(algorithm,password,[lodash])
+
+#### algorithm
+
+ - `algorithm` - **String | Array | Buffer** Choose between ['[arc4](https://en.wikipedia.org/wiki/RC4)', '[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)', '[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)', '[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)'] *(default "throw Error")*
+
+#### password
+
+ - `password` - **String** Your key *(default "throw Error")*
 
 #### [lodash]
 
- - `lodash` - **Boolean** Use lodash library (check [benchmark](https://github.com/hex7c0/arc4/tree/master/test/benchmark.js) test for right decision) *(default "disabled")*
+ - `lodash` - **Boolean** Use [lodash](http://lodash.com/) library (check [benchmark](https://github.com/hex7c0/arc4/tree/master/test/benchmark.js) test for right decision) *(default "disabled")*
 
 ## Examples
 

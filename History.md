@@ -1,3 +1,13 @@
+v3.0.0 / 2014-09-07
+==================
+
+  * Code rewrite
+  * Add "algorithm" (options)
+  * Rename "key" to password (options)
+  * Now, every algorithm is called inside class, not with methods (codeArrayRC4A)
+  * Add "encode*" and "decode*" methods for every data input
+  * Add "input_encoding" and "output_encoding" for "encodeString" and "decodeString"
+
 v2.2.5 / 2014-09-06
 ==================
 
