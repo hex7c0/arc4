@@ -1,5 +1,5 @@
 /*
- * arc4 v3.0.0
+ * arc4 v3.0.2
  * (c) hex7c0 http://supergiovane.tk/#/arc4
  * Licensed under GPLv3
  */
