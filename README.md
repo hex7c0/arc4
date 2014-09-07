@@ -41,7 +41,7 @@ cipher.change('foo');
 
 encode string data
 ```js
-cipher.encodeString('string');
+cipher.encodeString('string','utf8','base64);
 ```
 
 encode array data
