@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file vmpc test
+ * @file arc4+ test
  * @module arc4
  * @package arc4
  * @subpackage test
@@ -24,23 +24,23 @@ try {
 /*
  * test module
  */
-describe('vmpc', function() {
+describe('arc4p', function() {
 
-    var a;// key
-    var b;// data
+    var a; // key
+    var b; // data
 
-    it('string - should return some string', function(done) {
+    it('string - should return same string', function(done) {
 
         a = 'pippo';
         b = 'ciao';
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
         var d = cipher.encodeString(b); // encrypt
         var e = cipher.decodeString(d); // decrypt
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
         assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a, true);
         var dd = cipher.encodeString(b); // encrypt
         var ee = cipher.decodeString(dd); // decrypt
         assert.deepEqual(b, ee, 'lodash');
@@ -52,18 +52,18 @@ describe('vmpc', function() {
         done();
     });
 
-    it('array - should return some array', function(done) {
+    it('array - should return same array', function(done) {
 
         a = [ 112, 105, 112, 112, 111 ];
         b = [ 99, 105, 97, 111 ];
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
         var d = cipher.codeArray(b); // encrypt
         var e = cipher.codeArray(d); // decrypt
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
         assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a, true);
         var dd = cipher.codeArray(b); // encrypt
         var ee = cipher.codeArray(dd); // decrypt
         assert.deepEqual(b, ee, 'lodash');
@@ -75,18 +75,18 @@ describe('vmpc', function() {
         done();
     });
 
-    it('buffer - should return some buffer', function(done) {
+    it('buffer - should return same buffer', function(done) {
 
         a = new Buffer('pippo');
         b = new Buffer('ciao');
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
         var d = cipher.codeBuffer(b); // encrypt
         var e = cipher.codeBuffer(d); // decrypt
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
         assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a, true);
         var dd = cipher.codeBuffer(b); // encrypt
         var ee = cipher.codeBuffer(dd); // decrypt
         assert.deepEqual(b, ee, 'lodash');
@@ -102,7 +102,7 @@ describe('vmpc', function() {
 
         a = new Buffer('pippo');
         b = '1';
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
         var d = cipher.code(b); // encrypt
         d = [ d.charCodeAt(0) ]; // string->byte
         var e = cipher.code(d); // decrypt
@@ -117,7 +117,7 @@ describe('vmpc', function() {
 
         a = 'pippo';
         b = 'ciao';
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
         var d = cipher.encodeString(b); // encrypt
         cipher.change('pluto'); // change key
         var e = cipher.decodeString(d); // decrypt
@@ -132,7 +132,7 @@ describe('vmpc', function() {
         var fs = require('fs');
         a = 'hex7c0';
         b = new Buffer('ciao I\'m hex7c0\nHow are you?\n:D');
-        var cipher = rc4('vmpc', a);
+        var cipher = rc4('rc4+', a);
 
         var d = cipher.codeBuffer(b); // encrypt
         // use {encoding: null} when you write buffer
