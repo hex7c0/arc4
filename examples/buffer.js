@@ -22,7 +22,7 @@ try {
 
 var a = new Buffer('pippo'); // key
 var b = new Buffer('ciao'); // data
-var cipher = rc4(a);
+var cipher = rc4('arc4', a);
 
 var d = cipher.codeBuffer(b); // encrypt
 

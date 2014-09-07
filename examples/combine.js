@@ -22,10 +22,10 @@ try {
 
 var a = 'pippo'; // key
 var b = '1'; // data
-var cipher = rc4(a);
+var cipher = rc4('arc4', a);
 
 var d = cipher.code(b); // encrypt
-d = [d.charCodeAt(0)]; // string->byte
+d = [ d.charCodeAt(0) ]; // string->byte
 
 var e = cipher.code(d); // decrypt
 e = String.fromCharCode(e[0]); // byte -> string

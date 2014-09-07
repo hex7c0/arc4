@@ -22,11 +22,11 @@ try {
 
 var a = 'pippo'; // key
 var b = 'ciao'; // data
-var cipher = rc4(a);
+var cipher = rc4('arc4', a);
 
-var d = cipher.codeString(b, 'utf8', 'base64'); // encrypt
+var d = cipher.encodeString(b, 'utf8', 'base64'); // encrypt
 
-var e = cipher.codeString(d, 'base64'); // decrypt
+var e = cipher.decodeString(d, 'base64'); // decrypt
 
 console.log('original: ' + b);
 console.log('encrypt: ' + d);

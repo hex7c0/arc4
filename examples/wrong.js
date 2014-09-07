@@ -22,13 +22,13 @@ try {
 
 var a = 'pippo'; // key
 var b = 'ciao'; // data
-var cipher = rc4(a);
+var cipher = rc4('arc4', a);
 
-var d = cipher.codeString(b); // encrypt
+var d = cipher.encodeString(b); // encrypt
 
 cipher.change('pluto'); // change key
 
-var e = cipher.codeString(d); // decrypt
+var e = cipher.decodeString(d); // decrypt
 
 console.log('original: ' + b);
 console.log('encrypt: ' + d);

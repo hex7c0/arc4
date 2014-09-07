@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file rc4p example
+ * @file rc4+ example
  * @module arc4
  * @package arc4
  * @subpackage examples
@@ -22,11 +22,11 @@ try {
 
 var a = 'pippo'; // key
 var b = 'ciao'; // data
-var cipher = rc4(a);
+var cipher = rc4('rc4+', a);
 
-var d = cipher.codeStringRC4P(b); // encrypt
+var d = cipher.encodeString(b); // encrypt
 
-var e = cipher.codeStringRC4P(d); // decrypt
+var e = cipher.decodeString(d); // decrypt
 
 console.log('original: ' + b);
 console.log('encrypt: ' + d);

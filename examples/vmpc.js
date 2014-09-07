@@ -22,11 +22,11 @@ try {
 
 var a = 'pippo'; // key
 var b = 'ciao'; // data
-var cipher = rc4(a);
+var cipher = rc4('vmpc', a);
 
-var d = cipher.codeStringVMPC(b); // encrypt
+var d = cipher.encodeString(b); // encrypt
 
-var e = cipher.codeStringVMPC(d); // decrypt
+var e = cipher.decodeString(d); // decrypt
 
 console.log('original: ' + b);
 console.log('encrypt: ' + d);
