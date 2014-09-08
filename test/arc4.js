@@ -105,7 +105,7 @@ describe('arc4', function() {
         var cipher = rc4('arc4', a);
         var d = cipher.code(b); // encrypt
         d = [ d.charCodeAt(0) ]; // string->byte
-        var e = cipher.code(d); // decrypt
+        var e = cipher.decode(d); // decrypt
         e = String.fromCharCode(e[0]); // byte -> string
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
