@@ -534,7 +534,7 @@ describe('benchmark', function() {
         });
     });
 
-    describe('rc4+p', function() {
+    describe('rc4+', function() {
 
         describe('string', function() {
 
