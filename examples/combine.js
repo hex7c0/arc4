@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file combine example
  * @module arc4

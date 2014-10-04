@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file vmpc test
  * @module arc4

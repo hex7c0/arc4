@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file benchmark test
  * @module arc4

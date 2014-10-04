@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file rc4a example
  * @module arc4
