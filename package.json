@@ -1,5 +1,5 @@
 {
-  "version": "3.0.4",
+  "version": "3.0.5",
   "name": "arc4",
   "description": "rc4 stream cipher",
   "keywords": [
@@ -22,23 +22,21 @@
     "url": "https://github.com/hex7c0/arc4/issues",
     "email": "hex7c0@gmail.com"
   },
-  "directories":{
-    "doc":"./doc",
-    "lib":"./min/lib"
+  "directories": {
+    "lib": "./min/lib"
   },
   "main": "index.min.js",
   "dependencies": {
     "lodash": "2.4.1"
   },
   "devDependencies": {
-    "mocha": "~1.21.4",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-uglify": "~0.5.1",
-    "grunt-endline": "~0.2.2",
-    "grunt-shell": "~1.1.1"
+    "mocha": "~1.21",
+    "grunt-contrib-clean": "~0.6",
+    "grunt-contrib-uglify": "~0.6",
+    "grunt-endline": "~0.2"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": "^0.10"
   },
   "scripts": {
     "prepublish": "npm prune",
