@@ -29,10 +29,11 @@ var min = __dirname + '/min/lib/';
  * @params {Boolean} [lodash] - flag
  * @return {Object}
  */
-module.exports = function arc4(algorithm, password, lodash) {
+function arc4(algorithm, password, lodash) {
 
     if (lodash) {
         return require(min + 'lodash/index.js')(algorithm, password);
     }
     return require(min + 'normal/index.js')(algorithm, password);
-};
+}
+module.exports = arc4;
