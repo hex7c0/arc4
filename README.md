@@ -5,7 +5,16 @@
 [![Dependency Status](https://david-dm.org/hex7c0/arc4/status.svg)](https://david-dm.org/hex7c0/arc4)
 
 [RC4](https://en.wikipedia.org/wiki/RC4) stream cipher.
-You can select from ['[arc4](https://en.wikipedia.org/wiki/RC4)', '[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)', '[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)', '[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)'] algorithm, and encode/decode with different [encodings](http://nodejs.org/api/buffer.html#apicontent) for *String only.
+You can select from ["[arc4](https://en.wikipedia.org/wiki/RC4)", "[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)", "[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)", "[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)"] algorithm
+
+Encode/decode with different [encodings](http://nodejs.org/api/buffer.html#apicontent) _for *String only_, from nodejs doc:
+> - 'ascii' - for 7 bit ASCII data only. This encoding method is very fast, and will strip the high bit if set.
+> - 'utf8' - Multibyte encoded Unicode characters. Many web pages and other document formats use UTF-8.
+> - 'utf16le' - 2 or 4 bytes, little endian encoded Unicode characters. Surrogate pairs (U+10000 to U+10FFFF) are supported.
+> - 'ucs2' - Alias of 'utf16le'.
+> - 'base64' - Base64 string encoding.
+> - 'binary' - A way of encoding raw binary data into strings by using only the first 8 bits of each character. This encoding method is deprecated and should be avoided in favor of Buffer objects where possible. This encoding will be removed in future versions of Node.
+> - 'hex' - Encode each byte as two hexadecimal characters.
 
 My original [python code](https://github.com/hex7c0/EncryptoPy/blob/master/modules/rc/rc4.py)
 
@@ -34,45 +43,64 @@ var e = cipher.decodeString(d);
 
 ### Methods
 
-change your key (warning) and reload gKsa
+change your key and reload [gKsa](https://en.wikipedia.org/wiki/RC4#Key-scheduling_algorithm_.28KSA.29) (warning)
 ```js
 cipher.change('foo');
+cipher.change([30,31]);
+cipher.change(new Buffer('foo'));
 ```
 
-encode string data
+encode a plaintext string, you can optionally choose input (defaults to 'utf8') and output (defaults to 'hex') [encoding](http://nodejs.org/api/buffer.html#apicontent)
 ```js
-cipher.encodeString('string','utf8','base64);
+cipher.encodeString(plaintext, [input_encoding], [output_encoding]);
+cipher.encodeString('string', 'utf8', 'base64');
 ```
 
-encode array data
+encode a plaintext array
 ```js
 cipher.encodeArray([49,50,51]);
 ```
 
-encode buffer data
+encode a plaintext buffer data
 ```js
 cipher.encodeBuffer(new Buffer('ciao'));
 ```
 
-encode string or byte or buffer (switch type)
+select right function according with plaintext data type. Set input and output [encoding](http://nodejs.org/api/buffer.html#apicontent) only if data is a String
 ```js
-cipher.encode(your_data);
+cipher.encode(your_data, [input_encoding], [output_encoding]);
 ```
 
-for decoding, change "encode*" to "decode*"
+decode a ciphertext string, you can optionally choose input (defaults to 'hex') and output (defaults to 'utf8') [encoding](http://nodejs.org/api/buffer.html#apicontent)
 ```js
-cipher.decode(your_data);
+cipher.decodeString(ciphertext, [input_encoding], [output_encoding]);
+cipher.decodeString('string', 'utf8', 'base64');
 ```
 
-### rc4(algorithm,password,[lodash])
+decode a ciphertext array
+```js
+cipher.decodeArray([49,50,51]);
+```
+
+decode a ciphertext buffer data
+```js
+cipher.decodeBuffer(new Buffer('ciao'));
+```
+
+select right function according with ciphertext data type. Set input and output [encoding](http://nodejs.org/api/buffer.html#apicontent) only if data is a String
+```js
+cipher.decode(your_data, [input_encoding], [output_encoding]);
+```
+
+### rc4(algorithm, password, [lodash])
 
 #### algorithm
 
- - `algorithm` - **String | Array | Buffer** Choose between ['[arc4](https://en.wikipedia.org/wiki/RC4)', '[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)', '[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)', '[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)'] *(default "throw Error")*
+ - `algorithm` - **String** Choose between ["[arc4](https://en.wikipedia.org/wiki/RC4)", "[rc4a](https://en.wikipedia.org/wiki/RC4#RC4A)", "[vmpc](https://en.wikipedia.org/wiki/RC4#VMPC)", "[rc4+](https://en.wikipedia.org/wiki/RC4#RC4.2B)"] *(default "throw Error")*
 
 #### password
 
- - `password` - **String** Your key *(default "throw Error")*
+ - `password` - **String | Array | Buffer** Your key *(default "throw Error")*
 
 #### [lodash]
 
