@@ -2,7 +2,6 @@
 /**
  * @file arc4 main
  * @module arc4
- * @package arc4
  * @subpackage main
  * @version 3.0.0
  * @author hex7c0 <hex7c0@gmail.com>
@@ -24,16 +23,16 @@ var min = __dirname + '/min/lib/';
  * 
  * @exports arc4
  * @function arc4
- * @params {String} algorithm - user key
- * @params {String} password - user key
- * @params {Boolean} [lodash] - flag
+ * @param {String} algorithm - user key
+ * @param {String|Array|Buffer} password - user key
+ * @param {Boolean} [lodash] - flag
  * @return {Object}
  */
 function arc4(algorithm, password, lodash) {
 
-    if (lodash) {
-        return require(min + 'lodash/index.js')(algorithm, password);
-    }
-    return require(min + 'normal/index.js')(algorithm, password);
+  if (lodash) {
+    return require(min + 'lodash/index.js')(algorithm, password);
+  }
+  return require(min + 'normal/index.js')(algorithm, password);
 }
 module.exports = arc4;
