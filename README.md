@@ -104,10 +104,10 @@ cipher.decode(your_data, [input_encoding], [output_encoding]);
 
 #### [lodash]
 
- - `lodash` - **Boolean** Use [lodash](http://lodash.com/) library (check [benchmark](https://github.com/hex7c0/arc4/tree/master/test/benchmark.js) test for right decision) *(default "disabled")*
+ - `lodash` - **Boolean** Use [lodash](http://lodash.com/) library (check [benchmark](test/benchmark.js) test for right decision) *(default "disabled")*
 
 ## Examples
 
-Take a look at my [examples](https://github.com/hex7c0/arc4/tree/master/examples)
+Take a look at my [examples](examples)
 
-### [License GPLv3](http://opensource.org/licenses/GPL-3.0)
+### [License GPLv3](license)
