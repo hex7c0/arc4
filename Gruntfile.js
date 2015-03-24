@@ -4,7 +4,7 @@
  * @subpackage main
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
- * @copyright supermercato24 2015
+ * @copyright hex7c0 2015
  * @license GPLv3
  */
 
