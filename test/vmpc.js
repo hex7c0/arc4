@@ -11,7 +11,6 @@
 /*
  * initialize module
  */
-// import
 var rc4 = require('..');
 var assert = require('assert');
 

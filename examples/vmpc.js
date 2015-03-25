@@ -2,7 +2,6 @@
 /**
  * @file vmpc example
  * @module arc4
- * @package arc4
  * @subpackage examples
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
@@ -12,13 +11,7 @@
 /*
  * initialize module
  */
-// import
-try {
-    var rc4 = require('../index.min.js'); // use require('arc4') instead
-} catch (MODULE_NOT_FOUND) {
-    console.error(MODULE_NOT_FOUND);
-    process.exit(1);
-}
+var rc4 = require('..'); // use require('arc4') instead
 
 var a = 'pippo'; // key
 var b = 'ciao'; // data
