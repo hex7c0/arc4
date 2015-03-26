@@ -176,8 +176,8 @@ describe('rc4aa', function() {
       assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
       var cipher = rc4('rc4a', a, true);
-      var dd = cipher.codeBuffer(b); // encrypt
-      var ee = cipher.codeBuffer(dd); // decrypt
+      var dd = cipher.encodeBuffer(b); // encrypt
+      var ee = cipher.decodeBuffer(dd); // decrypt
       assert.deepEqual(b, ee, 'lodash');
       assert.notDeepEqual(b, dd, 'orig - encrypt');
       assert.notDeepEqual(ee, dd, 'encrypt - decrypt');
@@ -215,7 +215,7 @@ describe('rc4aa', function() {
     a = new Buffer('pippo');
     b = '1';
     var cipher = rc4('rc4a', a);
-    var d = cipher.code(b); // encrypt
+    var d = cipher.codeString(b); // encrypt
     d = [ d.charCodeAt(0) ]; // string->byte
     var e = cipher.decode(d); // decrypt
     e = String.fromCharCode(e[0]); // byte -> string

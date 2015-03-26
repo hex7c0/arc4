@@ -18,9 +18,9 @@ var a = new Buffer('pippo'); // key
 var b = new Buffer('ciao'); // data
 var cipher = rc4('arc4', a);
 
-var d = cipher.codeBuffer(b); // encrypt
+var d = cipher.encodeBuffer(b); // encrypt
 
-var e = cipher.codeBuffer(d); // decrypt
+var e = cipher.decodeBuffer(d); // decrypt
 
 console.log('original: ' + b.toString());
 console.log('encrypt: ' + d.toString());

@@ -17,10 +17,10 @@ var a = 'pippo'; // key
 var b = '1'; // data
 var cipher = rc4('arc4', a);
 
-var d = cipher.code(b); // encrypt
+var d = cipher.codeString(b); // encrypt
 d = [ d.charCodeAt(0) ]; // string->byte
 
-var e = cipher.code(d); // decrypt
+var e = cipher.decode(d); // decrypt
 e = String.fromCharCode(e[0]); // byte -> string
 
 console.log('original: ' + b.toString());
