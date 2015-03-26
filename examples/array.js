@@ -17,9 +17,9 @@ var a = [ 112, 105, 112, 112, 111 ]; // key
 var b = [ 99, 105, 97, 111 ]; // data
 var cipher = rc4('arc4', a);
 
-var d = cipher.codeArray(b); // encrypt
+var d = cipher.encodeArray(b); // encrypt
 
-var e = cipher.codeArray(d); // decrypt
+var e = cipher.decodeArray(d); // decrypt
 
 console.log('original: ' + b.toString());
 console.log('encrypt: ' + d.toString());

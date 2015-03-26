@@ -121,15 +121,15 @@ describe('rc4aa', function() {
       a = [ 112, 105, 112, 112, 111 ];
       b = [ 99, 105, 97, 111 ];
       var cipher = rc4('rc4a', a);
-      var d = cipher.codeArray(b); // encrypt
-      var e = cipher.codeArray(d); // decrypt
+      var d = cipher.encodeArray(b); // encrypt
+      var e = cipher.decodeArray(d); // decrypt
       assert.deepEqual(b, e, 'clear');
       assert.notDeepEqual(b, d, 'orig - encrypt');
       assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
       var cipher = rc4('rc4a', a, true);
-      var dd = cipher.codeArray(b); // encrypt
-      var ee = cipher.codeArray(dd); // decrypt
+      var dd = cipher.encodeArray(b); // encrypt
+      var ee = cipher.decodeArray(dd); // decrypt
       assert.deepEqual(b, ee, 'lodash');
       assert.notDeepEqual(b, dd, 'orig - encrypt');
       assert.notDeepEqual(ee, dd, 'encrypt - decrypt');
@@ -143,15 +143,15 @@ describe('rc4aa', function() {
       a = [ 112, 105, 112, 112, 111 ];
       b = [ 99, 105, 97, 111 ];
       var cipher = rc4('rc4a', a);
-      var d = cipher.code(b); // encrypt
-      var e = cipher.code(d); // decrypt
+      var d = cipher.encode(b); // encrypt
+      var e = cipher.decode(d); // decrypt
       assert.deepEqual(b, e, 'clear');
       assert.notDeepEqual(b, d, 'orig - encrypt');
       assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
       var cipher = rc4('rc4a', a, true);
-      var dd = cipher.code(b); // encrypt
-      var ee = cipher.code(dd); // decrypt
+      var dd = cipher.encode(b); // encrypt
+      var ee = cipher.decode(dd); // decrypt
       assert.deepEqual(b, ee, 'lodash');
       assert.notDeepEqual(b, dd, 'orig - encrypt');
       assert.notDeepEqual(ee, dd, 'encrypt - decrypt');
@@ -169,8 +169,8 @@ describe('rc4aa', function() {
       a = new Buffer('pippo');
       b = new Buffer('ciao');
       var cipher = rc4('rc4a', a);
-      var d = cipher.codeBuffer(b); // encrypt
-      var e = cipher.codeBuffer(d); // decrypt
+      var d = cipher.encodeBuffer(b); // encrypt
+      var e = cipher.decodeBuffer(d); // decrypt
       assert.deepEqual(b, e, 'clear');
       assert.notDeepEqual(b, d, 'orig - encrypt');
       assert.notDeepEqual(e, d, 'encrypt - decrypt');
@@ -191,15 +191,15 @@ describe('rc4aa', function() {
       a = new Buffer('pippo');
       b = new Buffer('ciao');
       var cipher = rc4('rc4a', a);
-      var d = cipher.code(b); // encrypt
-      var e = cipher.code(d); // decrypt
+      var d = cipher.encode(b); // encrypt
+      var e = cipher.decode(d); // decrypt
       assert.deepEqual(b, e, 'clear');
       assert.notDeepEqual(b, d, 'orig - encrypt');
       assert.notDeepEqual(e, d, 'encrypt - decrypt');
 
       var cipher = rc4('rc4a', a, true);
-      var dd = cipher.code(b); // encrypt
-      var ee = cipher.code(dd); // decrypt
+      var dd = cipher.encode(b); // encrypt
+      var ee = cipher.decode(dd); // decrypt
       assert.deepEqual(b, ee, 'lodash');
       assert.notDeepEqual(b, dd, 'orig - encrypt');
       assert.notDeepEqual(ee, dd, 'encrypt - decrypt');
@@ -217,7 +217,7 @@ describe('rc4aa', function() {
     var cipher = rc4('rc4a', a);
     var d = cipher.code(b); // encrypt
     d = [ d.charCodeAt(0) ]; // string->byte
-    var e = cipher.code(d); // decrypt
+    var e = cipher.decode(d); // decrypt
     e = String.fromCharCode(e[0]); // byte -> string
     assert.deepEqual(b, e, 'clear');
     assert.notDeepEqual(b, d, 'orig - encrypt');
@@ -244,7 +244,7 @@ describe('rc4aa', function() {
     b = new Buffer('ciao I\'m hex7c0\nHow are you?\n:D');
     var cipher = rc4('rc4a', a);
 
-    var d = cipher.codeBuffer(b); // encrypt
+    var d = cipher.encodeBuffer(b); // encrypt
     // use {encoding: null} when you write buffer
     fs.writeFile('crypted', d, function(err) {
 
@@ -253,7 +253,7 @@ describe('rc4aa', function() {
       fs.readFile('crypted', function(err, data) {
 
         assert.equal(err, null);
-        var e = cipher.codeBuffer(data); // decrypt
+        var e = cipher.decodeBuffer(data); // decrypt
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
         assert.notDeepEqual(e, d, 'encrypt - decrypt');
