@@ -1,3 +1,13 @@
+v3.1.0 / 2015-03-27
+==================
+
+  * Remove `.code*` support
+  * Fix deprecation error with `.codeString`
+  * Update `lodash`@3.6.0
+  * `windows` test
+  * `iojs` test
+  * `coveralls` test
+
 v3.0.8 / 2015-01-30
 ==================
 
