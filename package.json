@@ -27,7 +27,7 @@
   },
   "main": "index.min.js",
   "dependencies": {
-    "lodash": "3.9.3"
+    "lodash": "3.10.0"
   },
   "devDependencies": {
     "coveralls": "~2.11",
