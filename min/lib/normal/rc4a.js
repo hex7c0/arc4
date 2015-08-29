@@ -1,13 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; 256 > i; i++) j = (j + s[i] + key[i % len]) % 256, 
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; 256 > i; ++i) j = (j + s[i] + key[i % len]) % 256, 
     s[j] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var i = 0, j1 = 0, j2 = 0, out = container, s1 = gksa.slice(), s2 = gksa.slice(), y = 0; length > y; y++) i = (i + 1) % 256, 
+    for (var i = 0, j1 = 0, j2 = 0, out = container, s1 = gksa.slice(), s2 = gksa.slice(), y = 0; length > y; ++y) i = (i + 1) % 256, 
     j1 = (j1 + s1[i]) % 256, s1[j1] = [ s1[i], s1[i] = s1[j1] ][0], out[y] = inp[y] ^ s2[(s1[i] + s1[j1]) % 256], 
     ++y < length && (j2 = (j2 + s2[i]) % 256, s2[j2] = [ s2[i], s2[i] = s2[j2] ][0], 
     out[y] = inp[y] ^ s1[(s2[i] + s2[j1]) % 256]);
@@ -25,11 +25,11 @@ module.exports = function(password) {
 }, Rc4a.prototype.change = function(key) {
     if (this.key = new Array(key.legth), Array.isArray(key)) this.key = key; else {
         if ("string" != typeof key && !Buffer.isBuffer(key)) throw new Error("Invalid data");
-        for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; i++) this.key[i] = keys[i];
+        for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; ++i) this.key[i] = keys[i];
     }
     this.ksa = gKsa(this.key);
 }, Rc4a.prototype.codeString = deprecate(function(str) {
-    for (var i = 0, j1 = 0, j2 = 0, out = "", s1 = this.ksa.slice(), s2 = this.ksa.slice(), y = 0, l = str.length; l > y; y++) i = (i + 1) % 256, 
+    for (var i = 0, j1 = 0, j2 = 0, out = "", s1 = this.ksa.slice(), s2 = this.ksa.slice(), y = 0, l = str.length; l > y; ++y) i = (i + 1) % 256, 
     j1 = (j1 + s1[i]) % 256, s1[j1] = [ s1[i], s1[i] = s1[j1] ][0], out += String.fromCharCode(str.charCodeAt(y) ^ s2[(s1[i] + s1[j1]) % 256]), 
     ++y < l && (j2 = (j2 + s2[i]) % 256, s2[j2] = [ s2[i], s2[i] = s2[j2] ][0], out += String.fromCharCode(str.charCodeAt(y) ^ s1[(s2[i] + s2[j2]) % 256]));
     return out;

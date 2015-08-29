@@ -1,13 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; 256 > i; i++) j = (j + s[i] + key[i % len]) % 256, 
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; 256 > i; ++i) j = (j + s[i] + key[i % len]) % 256, 
     s[j] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var a, b, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; length > y; y++) a = ksa[i], 
+    for (var a, b, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; length > y; ++y) a = ksa[i], 
     j = ksa[(j + a) % 256], b = ksa[j], out[y] = inp[y] ^ ksa[ksa[b] + 1], ksa[j] = [ a, ksa[i] = b ][0], 
     i = (i + 1) % 256;
     return out;
@@ -24,11 +24,11 @@ module.exports = function(password) {
 }, Vmpc.prototype.change = function(key) {
     if (this.key = new Array(key.legth), Array.isArray(key)) this.key = key; else {
         if ("string" != typeof key && !Buffer.isBuffer(key)) throw new Error("Invalid data");
-        for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; i++) this.key[i] = keys[i];
+        for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; ++i) this.key[i] = keys[i];
     }
     this.ksa = gKsa(this.key);
 }, Vmpc.prototype.codeString = deprecate(function(str) {
-    for (var a, b, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; l > y; y++) a = ksa[i], 
+    for (var a, b, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; l > y; ++y) a = ksa[i], 
     j = ksa[(j + a) % 256], b = ksa[j], out += String.fromCharCode(str.charCodeAt(y) ^ ksa[ksa[b] + 1]), 
     ksa[j] = [ a, ksa[i] = b ][0], i = (i + 1) % 256;
     return out;

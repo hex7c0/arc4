@@ -1,7 +1,7 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; 256 > i; i++) j = (j + s[i] + key[i % len]) % 256, 
+    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; 256 > i; ++i) j = (j + s[i] + key[i % len]) % 256, 
     s[j] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
