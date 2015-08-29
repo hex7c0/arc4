@@ -3,7 +3,7 @@
  * @file arc4 main
  * @module arc4
  * @subpackage main
- * @version 3.0.0
+ * @version 3.2.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -12,8 +12,9 @@
 /*
  * initialize module
  */
-// load
 var min = __dirname + '/min/lib/';
+var minNormal = min + 'normal/index.js';
+var minLodash = min + 'lodash/index.js';
 
 /*
  * functions
@@ -30,9 +31,39 @@ var min = __dirname + '/min/lib/';
  */
 function arc4(algorithm, password, lodash) {
 
-  if (lodash) {
-    return require(min + 'lodash/index.js')(algorithm, password);
+  if (!lodash) {
+    return require(minNormal)(algorithm, password);
   }
-  return require(min + 'normal/index.js')(algorithm, password);
+  return require(minLodash)(algorithm, password);
 }
 module.exports = arc4;
+
+/**
+ * export normal function
+ * 
+ * @exports normal
+ * @function normal
+ * @param {String} algorithm - user key
+ * @param {String|Array|Buffer} password - user key
+ * @return {Object}
+ */
+function normal(algorithm, password) {
+
+  return require(minNormal)(algorithm, password);
+}
+module.exports.normal = normal;
+
+/**
+ * export normal function
+ * 
+ * @exports normal
+ * @function normal
+ * @param {String} algorithm - user key
+ * @param {String|Array|Buffer} password - user key
+ * @return {Object}
+ */
+function lodash(algorithm, password) {
+
+  return require(minLodash)(algorithm, password);
+}
+module.exports.lodash = lodash;
