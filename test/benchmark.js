@@ -11,8 +11,9 @@
 /*
  * initialize module
  */
-var rc4 = require('..');
 var _ = require('lodash'); // cache
+var rc4N = require('..').normal;
+var rc4L = require('..').lodash;
 var assert = require('assert');
 // load
 var a = 'very_long_key_SuPeR_s1cu73';
@@ -47,14 +48,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', a);
+          var cipher = rc4N('arc4', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', b);
+          var cipher = rc4N('arc4', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -72,14 +73,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', a, true);
+          var cipher = rc4L('arc4', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', b, true);
+          var cipher = rc4L('arc4', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -100,14 +101,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', aa);
+          var cipher = rc4N('arc4', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', bb);
+          var cipher = rc4N('arc4', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -125,14 +126,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', aa, true);
+          var cipher = rc4L('arc4', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', bb, true);
+          var cipher = rc4L('arc4', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -153,14 +154,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', aaa);
+          var cipher = rc4N('arc4', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', bbb);
+          var cipher = rc4N('arc4', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -178,14 +179,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('arc4', aaa, true);
+          var cipher = rc4L('arc4', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('arc4', bbb, true);
+          var cipher = rc4L('arc4', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -209,14 +210,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', a);
+          var cipher = rc4N('rc4a', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4a', b);
+          var cipher = rc4N('rc4a', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -234,14 +235,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', a, true);
+          var cipher = rc4L('rc4a', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4a', b, true);
+          var cipher = rc4L('rc4a', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -262,7 +263,7 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', aa);
+          var cipher = rc4N('rc4a', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
@@ -280,7 +281,7 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', aa, true);
+          var cipher = rc4L('rc4a', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
@@ -301,14 +302,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', aaa);
+          var cipher = rc4N('rc4a', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4a', bbb);
+          var cipher = rc4N('rc4a', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -326,14 +327,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4a', aaa, true);
+          var cipher = rc4L('rc4a', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4a', bbb, true);
+          var cipher = rc4L('rc4a', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -357,14 +358,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', a);
+          var cipher = rc4N('vmpc', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', b);
+          var cipher = rc4N('vmpc', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -382,14 +383,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', a, true);
+          var cipher = rc4L('vmpc', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', b, true);
+          var cipher = rc4L('vmpc', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -410,14 +411,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', aa);
+          var cipher = rc4N('vmpc', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', bb);
+          var cipher = rc4N('vmpc', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -435,14 +436,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', aa, true);
+          var cipher = rc4L('vmpc', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', bb, true);
+          var cipher = rc4L('vmpc', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -463,14 +464,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', aaa);
+          var cipher = rc4N('vmpc', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', bbb);
+          var cipher = rc4N('vmpc', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -488,14 +489,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('vmpc', aaa, true);
+          var cipher = rc4L('vmpc', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('vmpc', bbb, true);
+          var cipher = rc4L('vmpc', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -519,14 +520,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', a);
+          var cipher = rc4N('rc4+', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', b);
+          var cipher = rc4N('rc4+', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -544,14 +545,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', a, true);
+          var cipher = rc4L('rc4+', a);
           var d = cipher.encodeString(b); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(b, e, 'clear');
           assert.notDeepEqual(b, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', b, true);
+          var cipher = rc4L('rc4+', b);
           var d = cipher.encodeString(a); // encrypt
           var e = cipher.decodeString(d); // decrypt
           assert.deepEqual(a, e, 'clear');
@@ -572,14 +573,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', aa);
+          var cipher = rc4N('rc4+', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', bb);
+          var cipher = rc4N('rc4+', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -597,14 +598,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', aa, true);
+          var cipher = rc4L('rc4+', aa);
           var d = cipher.encodeArray(bb); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(bb, e, 'clear');
           assert.notDeepEqual(bb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', bb, true);
+          var cipher = rc4L('rc4+', bb);
           var d = cipher.encodeArray(aa); // encrypt
           var e = cipher.decodeArray(d); // decrypt
           assert.deepEqual(aa, e, 'clear');
@@ -625,14 +626,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', aaa);
+          var cipher = rc4N('rc4+', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', bbb);
+          var cipher = rc4N('rc4+', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
@@ -650,14 +651,14 @@ describe('benchmark', function() {
         var start = process.hrtime();
         for (var i = 0; i < 10; i++) {
 
-          var cipher = rc4('rc4+', aaa, true);
+          var cipher = rc4L('rc4+', aaa);
           var d = cipher.encodeBuffer(bbb); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(bbb, e, 'clear');
           assert.notDeepEqual(bbb, d, 'orig - encrypt');
           assert.notDeepEqual(e, d, 'encrypt - decrypt');
           // reverse
-          var cipher = rc4('rc4+', bbb, true);
+          var cipher = rc4L('rc4+', bbb);
           var d = cipher.encodeBuffer(aaa); // encrypt
           var e = cipher.decodeBuffer(d); // decrypt
           assert.deepEqual(aaa, e, 'clear');
