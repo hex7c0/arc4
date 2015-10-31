@@ -1,5 +1,5 @@
 {
-  "version": "3.2.0",
+  "version": "3.2.1",
   "name": "arc4",
   "description": "rc4 stream cipher",
   "keywords": [
@@ -8,7 +8,7 @@
     "cipher"
   ],
   "preferGlobal": false,
-  "homepage": "http://supergiovane.tk/#/arc4",
+  "homepage": "https://github.com/hex7c0/arc4",
   "author": {
     "name": "hex7c0",
     "email": "hex7c0@gmail.com",

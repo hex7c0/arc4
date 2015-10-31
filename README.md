@@ -1,4 +1,4 @@
-# [arc4](http://supergiovane.tk/#/arc4)
+# [arc4](https://github.com/hex7c0/arc4)
 
 [![NPM version](https://img.shields.io/npm/v/arc4.svg)](https://www.npmjs.com/package/arc4)
 [![Linux Status](https://img.shields.io/travis/hex7c0/arc4.svg?label=linux)](https://travis-ci.org/hex7c0/arc4)
