@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "coveralls": "~2.11",
-    "grunt-contrib-clean": "~0.6",
-    "grunt-contrib-uglify": "~0.10",
+    "grunt-contrib-clean": "~0.7",
+    "grunt-contrib-uglify": "~0.11",
     "grunt-contrib-jshint": "~0.11",
     "grunt-endline": "~0.4",
     "istanbul": "~0.4",
