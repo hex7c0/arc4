@@ -1,3 +1,9 @@
+v3.3.4 / 2016-05-21
+==================
+
+  * Fix mistyped property of key (@aucelum)
+  * Update `lodash`@4.12.0
+
 v3.3.3 / 2016-05-03
 ==================
 
