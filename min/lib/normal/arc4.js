@@ -23,7 +23,7 @@ module.exports = function(password) {
 }, Arc4.prototype.change = function(key) {
     if (Array.isArray(key)) this.key = key; else {
         if ("string" != typeof key && !Buffer.isBuffer(key)) throw new Error("Invalid data");
-        this.key = new Array(key.legth);
+        this.key = new Array(key.length);
         for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; ++i) this.key[i] = keys[i];
     }
     this.ksa = gKsa(this.key);

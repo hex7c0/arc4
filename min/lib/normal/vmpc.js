@@ -22,7 +22,7 @@ var deprecate = require("util").deprecate, box = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 module.exports = function(password) {
     return new Vmpc(password);
 }, Vmpc.prototype.change = function(key) {
-    if (this.key = new Array(key.legth), Array.isArray(key)) this.key = key; else {
+    if (this.key = new Array(key.length), Array.isArray(key)) this.key = key; else {
         if ("string" != typeof key && !Buffer.isBuffer(key)) throw new Error("Invalid data");
         for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; ++i) this.key[i] = keys[i];
     }
