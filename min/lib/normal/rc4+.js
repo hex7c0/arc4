@@ -1,13 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; 256 > i; ++i) j = (j + s[i] + key[i % len]) % 256, 
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
     s[j] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var a, b, c, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; length > y; ++y) i = (i + 1) % 256, 
+    for (var a, b, c, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; y < length; ++y) i = (i + 1) % 256, 
     a = ksa[i], j = ksa[(j + a) % 256], b = ksa[j], ksa[j] = [ a, ksa[i] = b ][0], c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256, 
     out[y] = inp[y] ^ ksa[a + b] + ksa[170 ^ c] ^ ksa[j + b];
     return out;
@@ -24,11 +24,11 @@ module.exports = function(password) {
 }, Rc4p.prototype.change = function(key) {
     if (this.key = new Array(key.length), Array.isArray(key)) this.key = key; else {
         if ("string" != typeof key && !Buffer.isBuffer(key)) throw new Error("Invalid data");
-        for (var keys = new Buffer(key), i = 0, ii = keys.length; ii > i; ++i) this.key[i] = keys[i];
+        for (var keys = new Buffer(key), i = 0, ii = keys.length; i < ii; ++i) this.key[i] = keys[i];
     }
     this.ksa = gKsa(this.key);
 }, Rc4p.prototype.codeString = deprecate(function(str) {
-    for (var a, b, c, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; l > y; ++y) i = (i + 1) % 256, 
+    for (var a, b, c, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) i = (i + 1) % 256, 
     a = ksa[i], j = ksa[(j + a) % 256], b = ksa[j], ksa[j] = [ a, ksa[i] = b ][0], c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256, 
     out += String.fromCharCode(str.charCodeAt(y) ^ ksa[a + b] + ksa[170 ^ c] ^ ksa[j + b]);
     return out;
