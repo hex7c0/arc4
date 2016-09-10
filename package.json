@@ -28,7 +28,7 @@
   },
   "main": "index.min.js",
   "dependencies": {
-    "lodash": "4.12.0"
+    "lodash": "4.15.0"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~1.0",
