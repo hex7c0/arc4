@@ -248,11 +248,11 @@ describe('rc4+p', function() {
     // use {encoding: null} when you write buffer
     fs.writeFile('crypted', d, function(err) {
 
-      assert.equal(err, null);
+      assert.ifError(err);
       // use {encoding: null} when you read buffer
       fs.readFile('crypted', function(err, data) {
 
-        assert.equal(err, null);
+        assert.ifError(err);
         var e = cipher.decodeBuffer(data); // decrypt
         assert.deepEqual(b, e, 'clear');
         assert.notDeepEqual(b, d, 'orig - encrypt');
