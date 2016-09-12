@@ -3,7 +3,7 @@
  * @file arc4 main
  * @module arc4
  * @subpackage main
- * @version 3.2.0
+ * @version 3.3.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
