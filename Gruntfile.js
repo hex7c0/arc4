@@ -81,13 +81,12 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-endline');
 
   grunt.registerTask('lint', [ 'jshint' ]);
-  grunt.registerTask('min', [ 'clean', 'uglify', 'endline' ]);
+  grunt.registerTask('min', [ 'uglify', 'endline' ]);
   grunt.registerTask('default', [ 'lint', 'min' ]);
 
   return;
