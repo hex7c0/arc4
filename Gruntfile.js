@@ -66,6 +66,18 @@ module.exports = function(grunt) {
       }
     },
 
+    safer: {
+      target: {
+        files: [ {
+          src: 'lib/**/*.js'
+        }, {
+          src: 'module/**/*.js'
+        }, {
+          src: 'index.js',
+        } ]
+      }
+    },
+
     endline: {
       target: {
         files: [ {
@@ -84,8 +96,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-endline');
+  grunt.loadNpmTasks('grunt-safer-regex');
 
-  grunt.registerTask('lint', [ 'jshint' ]);
+  grunt.registerTask('lint', [ 'jshint', 'safer' ]);
   grunt.registerTask('min', [ 'uglify', 'endline' ]);
   grunt.registerTask('default', [ 'lint', 'min' ]);
 
