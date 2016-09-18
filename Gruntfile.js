@@ -68,12 +68,14 @@ module.exports = function(grunt) {
 
     endline: {
       target: {
-        options: {
-          except: 'node_modules',
-          replaced: true
-        },
         files: [ {
-          src: './**/*.js'
+          src: 'lib/**/*.js'
+        }, {
+          src: 'min/**/*.js'
+        }, {
+          src: 'module/**/*.js'
+        }, {
+          src: '*.js',
         } ]
       }
     }
