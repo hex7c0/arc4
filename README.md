@@ -1,7 +1,7 @@
 # [arc4](https://github.com/hex7c0/arc4)
 
 [![NPM version](https://img.shields.io/npm/v/arc4.svg)](https://www.npmjs.com/package/arc4)
-[![Linux Status](https://img.shields.io/travis/hex7c0/arc4.svg?label=linux)](https://travis-ci.org/hex7c0/arc4)
+[![Linux Status](https://img.shields.io/travis/hex7c0/arc4.svg?label=linux-osx)](https://travis-ci.org/hex7c0/arc4)
 [![Windows Status](https://img.shields.io/appveyor/ci/hex7c0/arc4.svg?label=windows)](https://ci.appveyor.com/project/hex7c0/arc4)
 [![Dependency Status](https://img.shields.io/david/hex7c0/arc4.svg)](https://david-dm.org/hex7c0/arc4)
 [![Coveralls](https://img.shields.io/coveralls/hex7c0/arc4.svg)](https://coveralls.io/r/hex7c0/arc4)
