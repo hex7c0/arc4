@@ -1,15 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
-    s[j] = [ s[i], s[i] = s[j] ][0];
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) s[j = (j + s[i] + key[i % len]) % 256] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var a, b, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; y < length; ++y) a = ksa[i], 
-    j = ksa[(j + a) % 256], b = ksa[j], out[y] = inp[y] ^ ksa[ksa[b] + 1], ksa[j] = [ a, ksa[i] = b ][0], 
-    i = (i + 1) % 256;
+    for (var a, b, i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; y < length; ++y) b = ksa[j = ksa[(j + (a = ksa[i])) % 256]], 
+    out[y] = inp[y] ^ ksa[ksa[b] + 1], ksa[j] = [ a, ksa[i] = b ][0], i = (i + 1) % 256;
     return out;
 }
 
@@ -28,9 +26,9 @@ module.exports = function(password) {
     }
     this.ksa = gKsa(this.key);
 }, Vmpc.prototype.codeString = deprecate(function(str) {
-    for (var a, b, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) a = ksa[i], 
-    j = ksa[(j + a) % 256], b = ksa[j], out += String.fromCharCode(str.charCodeAt(y) ^ ksa[ksa[b] + 1]), 
-    ksa[j] = [ a, ksa[i] = b ][0], i = (i + 1) % 256;
+    for (var a, b, i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) b = ksa[j = ksa[(j + (a = ksa[i])) % 256]], 
+    out += String.fromCharCode(str.charCodeAt(y) ^ ksa[ksa[b] + 1]), ksa[j] = [ a, ksa[i] = b ][0], 
+    i = (i + 1) % 256;
     return out;
 }, '"codeString" method is deprecated'), Vmpc.prototype.encodeString = function(str, input_encoding, output_encoding) {
     var out = new Buffer(str, input_encoding || "utf8"), l = out.length;

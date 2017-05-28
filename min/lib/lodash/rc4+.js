@@ -1,16 +1,15 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
-    s[j] = [ s[i], s[i] = s[j] ][0];
+    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; i < 256; ++i) s[j = (j + s[i] + key[i % len]) % 256] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa) {
-    var a, b, c, i = 0, j = 0, ksa = gksa.slice();
+    var a, b, i = 0, j = 0, ksa = gksa.slice();
     return _.map(inp, function(num) {
         return i = (i + 1) % 256, a = ksa[i], j = ksa[(j + a) % 256], b = ksa[j], ksa[j] = [ a, ksa[i] = b ][0], 
-        num ^ ksa[a + b] + ksa[170 ^ c] ^ ksa[j + b];
+        num ^ ksa[a + b] + ksa[170] ^ ksa[j + b];
     });
 }
 
@@ -33,7 +32,7 @@ module.exports = function(password) {
 }, Rc4p.prototype.codeString = deprecate(function(str) {
     var a, b, c, i = 0, j = 0, out = "", ksa = this.ksa.slice();
     return _.map(str, function(num) {
-        i = (i + 1) % 256, a = ksa[i], j = ksa[(j + a) % 256], b = ksa[j], ksa[j] = [ a, ksa[i] = b ][0], 
+        a = ksa[i = (i + 1) % 256], j = ksa[(j + a) % 256], b = ksa[j], ksa[j] = [ a, ksa[i] = b ][0], 
         c = (ksa[i << 5 ^ j >> 3] + ksa[j << 5 ^ i >> 3]) % 256, out += String.fromCharCode(num.charCodeAt(0) ^ ksa[a + b] + ksa[170 ^ c] ^ ksa[j + b]);
     }), out;
 }, '"codeString" method is deprecated'), Rc4p.prototype.encodeString = function(str, input_encoding, output_encoding) {

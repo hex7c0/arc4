@@ -1,14 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
-    s[j] = [ s[i], s[i] = s[j] ][0];
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) s[j = (j + s[i] + key[i % len]) % 256] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; y < length; ++y) i = (i + 1) % 256, 
-    j = (j + ksa[i]) % 256, ksa[j] = [ ksa[i], ksa[i] = ksa[j] ][0], out[y] = inp[y] ^ ksa[(ksa[i] + ksa[j]) % 256];
+    for (var i = 0, j = 0, out = container, ksa = gksa.slice(), y = 0; y < length; ++y) ksa[j = (j + ksa[i = (i + 1) % 256]) % 256] = [ ksa[i], ksa[i] = ksa[j] ][0], 
+    out[y] = inp[y] ^ ksa[(ksa[i] + ksa[j]) % 256];
     return out;
 }
 
@@ -28,8 +27,8 @@ module.exports = function(password) {
     }
     this.ksa = gKsa(this.key);
 }, Arc4.prototype.codeString = deprecate(function(str) {
-    for (var i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) i = (i + 1) % 256, 
-    j = (j + ksa[i]) % 256, ksa[j] = [ ksa[i], ksa[i] = ksa[j] ][0], out += String.fromCharCode(str.charCodeAt(y) ^ ksa[(ksa[i] + ksa[j]) % 256]);
+    for (var i = 0, j = 0, out = "", ksa = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) ksa[j = (j + ksa[i = (i + 1) % 256]) % 256] = [ ksa[i], ksa[i] = ksa[j] ][0], 
+    out += String.fromCharCode(str.charCodeAt(y) ^ ksa[(ksa[i] + ksa[j]) % 256]);
     return out;
 }, '"codeString" method is deprecated'), Arc4.prototype.encodeString = function(str, input_encoding, output_encoding) {
     var out = new Buffer(str, input_encoding || "utf8"), l = out.length;

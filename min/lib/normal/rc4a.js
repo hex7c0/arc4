@@ -1,15 +1,13 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
-    s[j] = [ s[i], s[i] = s[j] ][0];
+    for (var j = 0, s = box.slice(), len = key.length, i = 0; i < 256; ++i) s[j = (j + s[i] + key[i % len]) % 256] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
 function body(inp, gksa, container, length) {
-    for (var i = 0, j1 = 0, j2 = 0, out = container, s1 = gksa.slice(), s2 = gksa.slice(), y = 0; y < length; ++y) i = (i + 1) % 256, 
-    j1 = (j1 + s1[i]) % 256, s1[j1] = [ s1[i], s1[i] = s1[j1] ][0], out[y] = inp[y] ^ s2[(s1[i] + s1[j1]) % 256], 
-    ++y < length && (j2 = (j2 + s2[i]) % 256, s2[j2] = [ s2[i], s2[i] = s2[j2] ][0], 
+    for (var i = 0, j1 = 0, j2 = 0, out = container, s1 = gksa.slice(), s2 = gksa.slice(), y = 0; y < length; ++y) s1[j1 = (j1 + s1[i = (i + 1) % 256]) % 256] = [ s1[i], s1[i] = s1[j1] ][0], 
+    out[y] = inp[y] ^ s2[(s1[i] + s1[j1]) % 256], ++y < length && (s2[j2 = (j2 + s2[i]) % 256] = [ s2[i], s2[i] = s2[j2] ][0], 
     out[y] = inp[y] ^ s1[(s2[i] + s2[j1]) % 256]);
     return out;
 }
@@ -29,9 +27,9 @@ module.exports = function(password) {
     }
     this.ksa = gKsa(this.key);
 }, Rc4a.prototype.codeString = deprecate(function(str) {
-    for (var i = 0, j1 = 0, j2 = 0, out = "", s1 = this.ksa.slice(), s2 = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) i = (i + 1) % 256, 
-    j1 = (j1 + s1[i]) % 256, s1[j1] = [ s1[i], s1[i] = s1[j1] ][0], out += String.fromCharCode(str.charCodeAt(y) ^ s2[(s1[i] + s1[j1]) % 256]), 
-    ++y < l && (j2 = (j2 + s2[i]) % 256, s2[j2] = [ s2[i], s2[i] = s2[j2] ][0], out += String.fromCharCode(str.charCodeAt(y) ^ s1[(s2[i] + s2[j2]) % 256]));
+    for (var i = 0, j1 = 0, j2 = 0, out = "", s1 = this.ksa.slice(), s2 = this.ksa.slice(), y = 0, l = str.length; y < l; ++y) s1[j1 = (j1 + s1[i = (i + 1) % 256]) % 256] = [ s1[i], s1[i] = s1[j1] ][0], 
+    out += String.fromCharCode(str.charCodeAt(y) ^ s2[(s1[i] + s1[j1]) % 256]), ++y < l && (s2[j2 = (j2 + s2[i]) % 256] = [ s2[i], s2[i] = s2[j2] ][0], 
+    out += String.fromCharCode(str.charCodeAt(y) ^ s1[(s2[i] + s2[j2]) % 256]));
     return out;
 }, '"codeString" method is deprecated'), Rc4a.prototype.encodeString = function(str, input_encoding, output_encoding) {
     var out = new Buffer(str, input_encoding || "utf8"), l = out.length;

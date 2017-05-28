@@ -1,8 +1,7 @@
 "use strict";
 
 function gKsa(key) {
-    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; i < 256; ++i) j = (j + s[i] + key[i % len]) % 256, 
-    s[j] = [ s[i], s[i] = s[j] ][0];
+    for (var j = 0, s = box.slice(), len = _.size(key), i = 0; i < 256; ++i) s[j = (j + s[i] + key[i % len]) % 256] = [ s[i], s[i] = s[j] ][0];
     return s;
 }
 
@@ -33,7 +32,7 @@ module.exports = function(password) {
 }, Arc4.prototype.codeString = deprecate(function(str) {
     var i = 0, j = 0, out = "", ksa = this.ksa.slice();
     return _.map(str, function(num) {
-        i = (i + 1) % 256, j = (j + ksa[i]) % 256, ksa[j] = [ ksa[i], ksa[i] = ksa[j] ][0], 
+        j = (j + ksa[i = (i + 1) % 256]) % 256, ksa[j] = [ ksa[i], ksa[i] = ksa[j] ][0], 
         out += String.fromCharCode(num.charCodeAt(0) ^ ksa[(ksa[i] + ksa[j]) % 256]);
     }), out;
 }, '"codeString" method is deprecated'), Arc4.prototype.encodeString = function(str, input_encoding, output_encoding) {
