@@ -1,5 +1,5 @@
 {
-  "version": "3.3.7",
+  "version": "3.3.8",
   "name": "arc4",
   "description": "rc4 stream cipher",
   "keywords": [
@@ -43,7 +43,6 @@
     "node": ">=4"
   },
   "scripts": {
-    "prepublish": "npm prune",
     "test": "mocha --bail --check-leaks",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly"
   },
