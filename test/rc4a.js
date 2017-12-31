@@ -24,7 +24,7 @@ describe('rc4aa', function() {
 
   describe('object', function() {
 
-    it('should return same string', function(done) {
+    it('should check that keys are different', function(done) {
 
       a = 'pippo';
       var cipher = rc4('rc4a', a, false);

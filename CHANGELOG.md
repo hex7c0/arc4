@@ -1,3 +1,9 @@
+v3.4.0 / 2017-12-31
+==================
+
+  * RC4A: fix S2 shouldn't be duplicate of S1 (@bryc)
+  * Tested against `node`@9
+
 v3.3.8 / 2017-05-28
 ==================
 

@@ -1,5 +1,5 @@
 {
-  "version": "3.3.8",
+  "version": "3.4.0",
   "name": "arc4",
   "description": "rc4 stream cipher",
   "keywords": [
