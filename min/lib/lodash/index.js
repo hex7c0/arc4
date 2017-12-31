@@ -1,5 +1,7 @@
 "use strict";
 
+var min = __dirname + "/";
+
 function lodash(algorithm, password) {
     var Class;
     try {
@@ -10,7 +12,5 @@ function lodash(algorithm, password) {
     if (!password) throw new TypeError("password required");
     return new Class(password);
 }
-
-var min = __dirname + "/";
 
 module.exports = lodash;
