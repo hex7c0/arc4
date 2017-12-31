@@ -22,6 +22,23 @@ describe('rc4aa', function() {
   var a; // key
   var b; // data
 
+  describe('object', function() {
+
+    it('should return same string', function(done) {
+
+      a = 'pippo';
+      var cipher = rc4('rc4a', a, false);
+      assert.notEqual(cipher.key, cipher.derivatedKey, 'KEY vs S1transform');
+      assert.notEqual(cipher.ksa, cipher.prga, 'S1 vs S2');
+
+      var cipher = rc4('rc4a', a, true);
+      assert.notEqual(cipher.key, cipher.derivatedKey, 'KEY vs S1transform');
+      assert.notEqual(cipher.ksa, cipher.prga, 'S1 vs S2');
+
+      done();
+    });
+  });
+
   describe('string', function() {
 
     it('should return same string', function(done) {
