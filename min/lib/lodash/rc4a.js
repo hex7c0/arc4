@@ -35,7 +35,7 @@ module.exports = function(password) {
     }
     this.ksa = gKsa(this.key), this.derivatedKey = gPrga(this.key, this.ksa), this.prga = gKsa(this.derivatedKey);
 }, Rc4a.prototype.codeString = deprecate(function(str) {
-    for (var i = 0, j1 = 0, j2 = 0, s1 = this.ksa.slice(), s2 = gPrga(this.key, s1.slice()), out = "", y = 0, l = _.size(str); y < l; y++) s1[j1 = (j1 + s1[i = (i + 1) % 256]) % 256] = [ s1[i], s1[i] = s1[j1] ][0], 
+    for (var i = 0, j1 = 0, j2 = 0, s1 = this.ksa.slice(), s2 = this.prga.slice(), out = "", y = 0, l = _.size(str); y < l; y++) s1[j1 = (j1 + s1[i = (i + 1) % 256]) % 256] = [ s1[i], s1[i] = s1[j1] ][0], 
     out += String.fromCharCode(str.charCodeAt(y) ^ s2[(s1[i] + s1[j1]) % 256]), ++y < l && (s2[j2 = (j2 + s2[i]) % 256] = [ s2[i], s2[i] = s2[j2] ][0], 
     out += String.fromCharCode(str.charCodeAt(y) ^ s1[(s2[i] + s2[j2]) % 256]));
     return out;
